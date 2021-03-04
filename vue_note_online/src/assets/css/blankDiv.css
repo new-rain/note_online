@@ -1,0 +1,63 @@
+.blank_10 {
+    height: 10px;
+}
+
+.blank_30 {
+    height: 30px;
+}
+
+.blank_50 {
+    height: 50px;
+}
+
+.blank_60 {
+    height: 60px;
+}
+
+.blank_80 {
+    height: 80px;
+}
+
+.blank_100 {
+    height: 100px;
+}
+
+.blank_130 {
+    height: 130px;
+}
+
+.blank_150 {
+    height: 150px;
+}
+
+.blank_200 {
+    height: 200px;
+}
+
+.blank_500 {
+    height: 500px;
+}
+
+.blank_700 {
+    height: 700px;
+}
+
+.blank_66_700 {
+    width: 67%;
+    height: 753px;
+    position: fixed;
+    left: 16.66%;
+    background: #ffffff;
+}
+
+.blank_66_700_25 {
+    width: 67%;
+    height: 753px;
+    position: fixed;
+    left: 25%;
+    background: #ffffff;
+}
+
+.bor_b{
+    border-bottom: 1px solid #000000;
+}
