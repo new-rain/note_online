@@ -10,7 +10,7 @@
             <div class="blank_30"></div>
           </el-col>
           <el-col :span="20">
-            <h1 class="mgt_20 mgb_30">笔记违规处理</h1>
+            <h1 class="mgt_20 mgb_30">申诉处理</h1>
             <div class="hg_600">
               <el-table :data="pageInfo.list" stripe style="width: 100%">
                 <el-table-column type="index"></el-table-column>

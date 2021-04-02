@@ -4,7 +4,6 @@ import org.apache.ibatis.annotations.*;
 import pers.jxy.entity.Note;
 
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 
 public interface NoteDao {
@@ -156,20 +155,44 @@ public interface NoteDao {
     /**
      * 精准搜索功能
      */
-    @Select("select n_no,n_name,n_read_num,n_good_num,n_comment_num from note where n_name = #{name} and note_state = 1;")
+    @Select("select n_no,\n" +
+            "       n_name,\n" +
+            "       n_read_num,\n" +
+            "       n_good_num,\n" +
+            "       n_comment_num,\n" +
+            "       u_no,\n" +
+            "       (select nickname from user where no = u_no) u_name\n" +
+            "from note\n" +
+            "where n_name = #{name}\n" +
+            "  and note_state = 1")
     List<Note> accurateSearchNote(@Param("name") String name);
 
     /**
      * 模糊查找
      */
-    @Select("select n_no,n_name,n_read_num,n_good_num,n_comment_num from note where n_name like '${name}%' and note_state = 1;")
+    @Select("select n_no,\n" +
+            "       n_name,\n" +
+            "       n_read_num,\n" +
+            "       n_good_num,\n" +
+            "       n_comment_num,\n" +
+            "       u_no,\n" +
+            "       (select nickname from user where no = u_no) u_name\n" +
+            "from note " +
+            "where n_name like '${name}%' " +
+            "and note_state = 1;")
     List<Note> fuzzySearchNote1(@Param("name") String name);
 
-    @Select("select n_no,n_name,n_read_num,n_good_num,n_comment_num from note where n_name like '%${name}%' and note_state = 1;")
+    @Select("select n_no,\n" +
+            "       n_name,\n" +
+            "       n_read_num,\n" +
+            "       n_good_num,\n" +
+            "       n_comment_num,\n" +
+            "       u_no,\n" +
+            "       (select nickname from user where no = u_no) u_name\n" +
+            "from note " +
+            "where n_name like '%${name}%' " +
+            "and note_state = 1;")
     List<Note> fuzzySearchNote2(@Param("name") String name);
-
-    @Select("select n_no,n_name,n_read_num,n_good_num,n_comment_num from note where n_name like '%${name}' and note_state = 1;")
-    List<Note> fuzzySearchNote3(@Param("name") String name);
 
 
     /**
@@ -197,7 +220,7 @@ public interface NoteDao {
     /**
      * 根据日期查询新增笔记数
      */
-    @Select("select count(*) from note where create_time like '${time}%'")
+    @Select("select ifnull((select count(*) from note where create_time like '${time}%'),0);")
     Integer queryNewNoteNum(@Param("time") String time);
 
     /**
@@ -236,9 +259,6 @@ public interface NoteDao {
     /**
      * 查询仅七天访问量
      */
-    @Select("select v_num\n" +
-            "from visitNum\n" +
-            "order by v_date desc\n" +
-            "limit 0,7")
-    LinkedList<Integer> select7DayVNum();
+    @Select("select ifnull((select v_num from visitNum where v_date = #{date}),0)")
+    Integer select7DayVNum(String date);
 }

@@ -53,12 +53,11 @@ export default {
     saveNote(note) {
       this.$refs[note].validate((valid) => {
         if (valid) {
-          const that = this;
-          const params = new URLSearchParams();
-          params.append("nname", that.note.nname);
-          params.append("article", that.note.article);
-          params.append("uNo", that.user.no);
-          params.append("nbNo", that.notebookNo);
+          let params = new URLSearchParams();
+          params.append("nname", this.note.nname);
+          params.append("article", this.note.article);
+          params.append("uNo", this.user.no);
+          params.append("nbNo", this.notebookNo);
           this.$axios.post('writeNote', params).then(res => {
             if (res.data > 0) {
               window.location.href = "/seeNote/" + res.data;

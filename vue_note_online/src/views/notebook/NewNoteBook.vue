@@ -112,9 +112,9 @@ export default {
   },
   methods: {
     pushTag() {
-      const newTag = this.newTag;
-      const tags = this.notebook.tags;
-      const index = tags.indexOf(newTag);
+      let newTag = this.newTag;
+      let tags = this.notebook.tags;
+      let index = tags.indexOf(newTag);
       if (index === -1) {
         if (newTag !== '') {
           this.notebook.tags.push(newTag);
@@ -136,20 +136,19 @@ export default {
       });
     },
     delTag(tag) {
-      const tags = this.tags;
+      let tags = this.tags;
       this.notebook.tags.splice(this.notebook.tags.indexOf(tag), 1);
     },
     newNoteBook(notebook) {
       this.$refs[notebook].validate((valid) => {
         if (valid) {
-          const uno = this.userNo;
-          const name = this.notebook.bname;
-          const describe = this.notebook.bdescribe;
-          const power = this.notebook.bpower;
-          const type = this.notebook.tags;
-          const coverImg = this.notebook.cover_img;
-          const that = this;
-          const params = new URLSearchParams();
+          let uno = this.userNo;
+          let name = this.notebook.bname;
+          let describe = this.notebook.bdescribe;
+          let power = this.notebook.bpower;
+          let type = this.notebook.tags;
+          let coverImg = this.notebook.cover_img;
+          let params = new URLSearchParams();
           params.append("uno", uno);
           params.append("name", name);
           params.append("describe", describe);

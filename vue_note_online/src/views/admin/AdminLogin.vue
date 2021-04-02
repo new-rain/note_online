@@ -22,12 +22,23 @@ export default {
   },
   methods: {
     login() {
-      if (this.adminNo == 'noteAdmin' && this.adminPassword == "noteAdmin") {
-        this.$store.commit("SET_ADMIN", 'note_online_admin');
-        window.location.href = "/admin";
-      } else {
-        this.$message.error("账号或密码错误，请重新尝试")
-      }
+      this.$axios.get("adminLogin", {
+        params: {
+          id: this.adminNo,
+          password: this.adminPassword
+        }
+      }).then(res => {
+        if (res.data != null) {
+          this.$store.commit("SET_ADMIN", res.data);
+          this.$store.commit("SET_ADMINNO", res.data.id);
+          window.location.href = '/admin';
+        } else {
+          this.$message.error("账号或密码错误，请重新尝试")
+        }
+
+      }).catch(error => {
+        console.log(error);
+      })
     }
   }
 }

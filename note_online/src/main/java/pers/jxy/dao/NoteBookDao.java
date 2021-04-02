@@ -57,8 +57,14 @@ public interface NoteBookDao {
     /**
      * 修改笔记本信息
      */
-    @Update("update notebook set b_name=#{noteBook.bName},b_describe=#{noteBook.bDescribe},b_type=#{noteBook.bType},b_power=#{noteBook.bPower},cover_url=#{noteBook.coverUrl} where b_no=#{noteBook.bNo} and notebook_state = 1")
-    Integer updateNoteBook(@Param("noteBook") NoteBook noteBook);
+    @Update("update notebook " +
+            "set b_name=#{noteBook.bName}," +
+            "b_describe=#{noteBook.bDescribe}," +
+            "b_type=#{noteBook.bType}," +
+            "b_power=#{noteBook.bPower}," +
+            "cover_url=#{noteBook.coverUrl} " +
+            "where b_no=#{noteBook.bNo} and notebook_state = 1")
+    Boolean updateNoteBook(@Param("noteBook") NoteBook noteBook);
 
     /**
      * 一对多查询笔记本信息
@@ -130,27 +136,71 @@ public interface NoteBookDao {
     /**
      * 根据时间倒序查询笔记本
      */
-    @Select("select b_no,b_name,b_describe,b_create_time,b_update_time,ifnull((select sum(n_read_num) from note where nb_no = b_no), 0) b_read_num,ifnull((select sum(n_good_num) from note where nb_no = b_no), 0) b_good_num,ifnull((select sum(n_comment_num) from note where nb_no = b_no), 0) b_comment_num,cover_url from notebook where u_no=#{no} and notebook_state = 1 order by b_create_time")
+    @Select("select b_no," +
+            "b_name," +
+            "b_describe," +
+            "b_create_time," +
+            "b_update_time," +
+            "ifnull((select sum(n_read_num) from note where nb_no = b_no), 0) b_read_num," +
+            "ifnull((select sum(n_good_num) from note where nb_no = b_no), 0) b_good_num," +
+            "ifnull((select sum(n_comment_num) from note where nb_no = b_no), 0) b_comment_num," +
+            "cover_url " +
+            "from notebook " +
+            "where u_no=#{no} and notebook_state = 1 " +
+            "order by b_create_time")
     List<NoteBook> queryNoteBookByTimeAsc(@Param("no") Integer no);
 
     /**
      * 根据时间正序查询笔记本
      */
-    @Select("select b_no,b_name,b_describe,b_create_time,b_update_time,ifnull((select sum(n_read_num) from note where nb_no = b_no), 0) b_read_num,ifnull((select sum(n_good_num) from note where nb_no = b_no), 0) b_good_num,ifnull((select sum(n_comment_num) from note where nb_no = b_no), 0) b_comment_num,cover_url from notebook where u_no=#{no} and notebook_state = 1 order by b_create_time desc")
+    @Select("select b_no," +
+            "b_name," +
+            "b_describe," +
+            "b_create_time," +
+            "b_update_time," +
+            "ifnull((select sum(n_read_num) from note where nb_no = b_no), 0) b_read_num," +
+            "ifnull((select sum(n_good_num) from note where nb_no = b_no), 0) b_good_num," +
+            "ifnull((select sum(n_comment_num) from note where nb_no = b_no), 0) b_comment_num," +
+            "cover_url " +
+            "from notebook " +
+            "where u_no=#{no} and notebook_state = 1 " +
+            "order by b_create_time desc")
     List<NoteBook> queryNoteBookByTimeDesc(@Param("no") Integer no);
 
 
     /**
      * 根据阅读量查询笔记本
      */
-    @Select("select b_no,b_name,b_describe,b_create_time,b_update_time,ifnull((select sum(n_read_num) from note where nb_no = b_no), 0) b_read_num,ifnull((select sum(n_good_num) from note where nb_no = b_no), 0) b_good_num,ifnull((select sum(n_comment_num) from note where nb_no = b_no), 0) b_comment_num,cover_url from notebook where u_no=#{no} and notebook_state = 1 order by b_read_num desc")
+    @Select("select b_no," +
+            "b_name," +
+            "b_describe," +
+            "b_create_time," +
+            "b_update_time," +
+            "ifnull((select sum(n_read_num) from note where nb_no = b_no), 0) b_read_num," +
+            "ifnull((select sum(n_good_num) from note where nb_no = b_no), 0) b_good_num," +
+            "ifnull((select sum(n_comment_num) from note where nb_no = b_no), 0) b_comment_num," +
+            "cover_url " +
+            "from notebook " +
+            "where u_no=#{no} and notebook_state = 1 " +
+            "order by b_read_num desc")
     List<NoteBook> queryNoteBookByReadNum(@Param("no") Integer no);
 
 
     /**
      * 根据点赞量查询笔记本
      */
-    @Select("select b_no,b_name,b_describe,b_create_time,b_update_time,ifnull((select sum(n_read_num) from note where nb_no = b_no), 0) b_read_num,ifnull((select sum(n_good_num) from note where nb_no = b_no), 0) b_good_num,ifnull((select sum(n_comment_num) from note where nb_no = b_no), 0) b_comment_num,cover_url from notebook where u_no=#{no} and notebook_state = 1 order by b_good_num desc")
+    @Select("select b_no," +
+            "b_name," +
+            "b_describe," +
+            "b_create_time," +
+            "b_update_time," +
+            "ifnull((select sum(n_read_num) from note where nb_no = b_no), 0) b_read_num," +
+            "ifnull((select sum(n_good_num) from note where nb_no = b_no), 0) b_good_num," +
+            "ifnull((select sum(n_comment_num) from note where nb_no = b_no), 0) b_comment_num," +
+            "cover_url " +
+            "from notebook " +
+            "where u_no=#{no} and notebook_state = 1 " +
+            "order by b_good_num desc")
     List<NoteBook> queryNoteBookByGoodNum(@Param("no") Integer no);
 
     /**
@@ -190,19 +240,55 @@ public interface NoteBookDao {
     /**
      * 精准搜索功能
      */
-    @Select("select b_no,b_name,b_describe,b_type,b_power,b_create_time,b_update_time,(select sum(n_read_num) from note where nb_no = b_no) b_read_num,(select sum(n_good_num) from note where nb_no = b_no) b_good_num,(select sum(n_comment_num) from note where nb_no = b_no) b_comment_num,(select count(*) from note where nb_no=b_no) b_note_num,u_no,cover_url from notebook where b_name = #{name} and notebook_state = 1")
+    @Select("select b_no," +
+            "b_name," +
+            "b_describe," +
+            "b_type," +
+            "b_power," +
+            "b_create_time," +
+            "b_update_time," +
+            "(select sum(n_read_num) from note where nb_no = b_no) b_read_num," +
+            "(select sum(n_good_num) from note where nb_no = b_no) b_good_num," +
+            "(select sum(n_comment_num) from note where nb_no = b_no) b_comment_num," +
+            "(select count(*) from note where nb_no=b_no) b_note_num," +
+            "u_no," +
+            "cover_url " +
+            "from notebook " +
+            "where b_name = #{name} and notebook_state = 1")
     List<NoteBook> accurateSearchNoteBook(@Param("name") String name);
 
     /**
      * 模糊查找
      */
-    @Select("select b_no,b_name,b_describe,b_type,b_power,b_create_time,b_update_time,(select sum(n_read_num) from note where nb_no = b_no) b_read_num,(select sum(n_good_num) from note where nb_no = b_no) b_good_num,(select sum(n_comment_num) from note where nb_no = b_no) b_comment_num,(select count(*) from note where nb_no=b_no) b_note_num,u_no,cover_url from notebook where b_name like '${name}%' and notebook_state = 1")
+    @Select("select b_no," +
+            "b_name," +
+            "b_describe," +
+            "b_type," +
+            "b_power," +
+            "b_create_time," +
+            "b_update_time," +
+            "(select sum(n_read_num) from note where nb_no = b_no) b_read_num," +
+            "(select sum(n_good_num) from note where nb_no = b_no) b_good_num," +
+            "(select sum(n_comment_num) from note where nb_no = b_no) b_comment_num," +
+            "(select count(*) from note where nb_no=b_no) b_note_num," +
+            "u_no,cover_url " +
+            "from notebook " +
+            "where b_name like '${name}%' and notebook_state = 1")
     List<NoteBook> fuzzySearchNoteBook1(@Param("name") String name);
 
-    @Select("select b_no,b_name,b_describe,b_type,b_power,b_create_time,b_update_time,(select sum(n_read_num) from note where nb_no = b_no) b_read_num,(select sum(n_good_num) from note where nb_no = b_no) b_good_num,(select sum(n_comment_num) from note where nb_no = b_no) b_comment_num,(select count(*) from note where nb_no=b_no) b_note_num,u_no,cover_url from notebook where b_name like '%${name}%' and notebook_state = 1")
+    @Select("select b_no," +
+            "b_name," +
+            "b_describe," +
+            "b_type,b_power," +
+            "b_create_time," +
+            "b_update_time," +
+            "(select sum(n_read_num) from note where nb_no = b_no) b_read_num," +
+            "(select sum(n_good_num) from note where nb_no = b_no) b_good_num," +
+            "(select sum(n_comment_num) from note where nb_no = b_no) b_comment_num," +
+            "(select count(*) from note where nb_no=b_no) b_note_num," +
+            "u_no,cover_url " +
+            "from notebook " +
+            "where b_name like '%${name}%' and notebook_state = 1")
     List<NoteBook> fuzzySearchNoteBook2(@Param("name") String name);
-
-    @Select("select b_no,b_name,b_describe,b_type,b_power,b_create_time,b_update_time,(select sum(n_read_num) from note where nb_no = b_no) b_read_num,(select sum(n_good_num) from note where nb_no = b_no) b_good_num,(select sum(n_comment_num) from note where nb_no = b_no) b_comment_num,(select count(*) from note where nb_no=b_no) b_note_num,u_no,cover_url from notebook where b_name like '%${name}' and notebook_state = 1")
-    List<NoteBook> fuzzySearchNoteBook3(@Param("name") String name);
 }
 

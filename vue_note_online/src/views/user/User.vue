@@ -272,9 +272,8 @@ export default {
       this.headUrl = 'background:url(' + this.user.headUrl + ')';
     },
     modify() {
-      var user = this.user;
-      var that = this;
-      var params = new URLSearchParams();
+      let user = this.user;
+      let params = new URLSearchParams();
       params.append("no", user.no);
       params.append("nickname", user.nickname);
       params.append("brief", user.brief);
@@ -315,19 +314,17 @@ export default {
       }
     },
     getCollectionNotes() {
-      const no = this.user.no;
-      const that = this;
+      let no = this.user.no;
       this.$axios.get("getColNote?no=" + no).then(res => {
-        that.collectionNotes = res.data;
+        this.collectionNotes = res.data;
       }).catch(error => {
         console.log(error)
       })
     },
     getCollectionNotebooks() {
-      const no = this.user.no;
-      const that = this;
+      let no = this.user.no;
       this.$axios.get("getColNotebook?no=" + no).then(res => {
-        that.collectionNotebooks = res.data;
+        this.collectionNotebooks = res.data;
       }).catch(error => {
         console.log(error)
       })
@@ -339,25 +336,23 @@ export default {
       window.location.href = "/seeNotebook/" + no;
     },
     getGoodNotes() {
-      const no = this.user.no;
-      const that = this;
+      let no = this.user.no;
       this.$axios.get("getGoodNotes?no=" + no).then(res => {
-        that.goodNotes = res.data;
+        this.goodNotes = res.data;
       }).catch(error => {
         console.log(error)
       })
     },
     chooseHeader() {
-      const that = this;
-      var params = new URLSearchParams();
+      let params = new URLSearchParams();
       params.append("headUrl", this.cover);
       params.append("no", this.user.no);
       this.$axios.put("/updateHeadUrl", params).then(res => {
         if (res.data) {
-          that.choose = false;
-          that.user.headUrl = that.cover;
-          that.headUrl = 'background:url(' + that.cover + ')';
-          that.$store.commit("SET_USER", that.user);
+          this.choose = false;
+          this.user.headUrl = this.cover;
+          this.headUrl = 'background:url(' + this.cover + ')';
+          this.$store.commit("SET_USER", this.user);
         }
       }).catch(error => {
         console.log(error)

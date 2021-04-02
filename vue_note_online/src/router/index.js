@@ -8,6 +8,7 @@ import Forget from '@/views/user/Forget.vue'
 import Message from '@/views/user/Message.vue'
 import Register from '@/views/user/Register.vue'
 import UpdatePwdByPwd from '@/views/user/UpdatePwdByPwd.vue'
+import CheckState from "@/views/user/CheckState";
 import SeeNote from '@/views/note/SeeNote.vue'
 import WriteNote from '@/views/note/WriteNote.vue'
 import SearchNote from '@/views/note/SearchNote.vue'
@@ -33,9 +34,11 @@ import ReleaseMessage from "@/views/admin/ReleaseMessage";
 import CheckFeedback from "@/views/admin/CheckFeedback";
 import AppealAudit from "@/views/admin/AppealAudit";
 import CheckAndAduitAppeal from "@/views/admin/CheckAndAduitAppeal";
-import Test from '@/views/oldpage/Test.vue'
-import Users from '@/views/oldpage/User.vue'
-import OldPageNotebook from '@/views/oldpage/OldPageNotebook.vue'
+import ShieldManage from "@/views/admin/ShieldManage";
+import AdminUpdate from "@/views/admin/AdminUpdate";
+import AdminPwd from "@/views/admin/AdminPwd";
+import AdminRegister from "@/views/admin/AdminRegister";
+import AddRNum from "@/views/admin/AddRNum";
 
 Vue.use(VueRouter)
 
@@ -80,6 +83,11 @@ const routes = [
         path: '/updatePwdByPwd',
         name: 'UpdatePwdByPwd',
         component: UpdatePwdByPwd
+    },
+    {
+        path: '/checkState/:no',
+        name: 'CheckState',
+        component: CheckState
     },
     /* 笔记模块 */
     {
@@ -210,22 +218,32 @@ const routes = [
         name: 'CheckAndAduitAppeal',
         component: CheckAndAduitAppeal
     },
-    /* 废弃页面 */
     {
-        path: '/test',
-        name: 'Test',
-        component: Test
+        path: '/admin/shieldManage',
+        name: 'ShieldManage',
+        component: ShieldManage
     },
     {
-        path: '/users',
-        name: 'Users',
-        component: Users
+        path: '/admin/adminUpdate',
+        name: 'AdminUpdate',
+        component: AdminUpdate
     },
     {
-        path: '/oldPageNotebook',
-        name: 'OldPageNotebook',
-        component: OldPageNotebook
+        path: '/admin/adminPwd',
+        name: 'AdminPwd',
+        component: AdminPwd
     },
+    {
+        path: '/admin/adminRegister',
+        name: 'AdminRegister',
+        component: AdminRegister
+    },
+    {
+        path: '/admin/addRNum',
+        name: 'AddRNum',
+        component: AddRNum
+    },
+
 ]
 
 const router = new VueRouter({

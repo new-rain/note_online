@@ -41,22 +41,20 @@ export default {
   },
   methods: {
     getNote(no) {
-      const that = this;
       this.$axios.get("/getNote", {
         params: {
           no: no
         }
       }).then(res => {
-        that.note = res.data;
-        that.check(that.userNo, that.note.uno);
+        this.note = res.data;
+        this.check(this.userNo, this.note.uno);
       }).catch(error => {
         console.log(error)
       })
     },
     changeNote() {
-      const note = this.note;
-      const that = this;
-      const params = new URLSearchParams();
+      let note = this.note;
+      let params = new URLSearchParams();
       params.append("nno", note.nno);
       params.append("nname", note.nname);
       params.append("arthicle", note.arthicle);
@@ -68,7 +66,7 @@ export default {
             message: '修改成功',
             type: 'success'
           })
-          window.location.href = "/seeNote/" + that.noteNo;
+          window.location.href = "/seeNote/" + this.noteNo;
         } else {
           this.$message({
             showClose: true,
@@ -91,7 +89,7 @@ export default {
     }
   },
   created() {
-    const no = this.$route.params.noteNo;
+    let no = this.$route.params.noteNo;
     this.userNo = this.$store.getters.getUserNo;
     this.noteNo = no;
     this.getNote(no);

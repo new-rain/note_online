@@ -33,7 +33,7 @@ export default {
   methods: {
     releaseMsg() {
       if (this.message != '') {
-        const params = new URLSearchParams();
+        let params = new URLSearchParams();
         params.append("body", this.message);
         this.$axios.post("/releaseMsg", params).then(res => {
           if (res.data) {

@@ -60,7 +60,7 @@ export default {
       }
     },
     NoteAppeal() {
-      const params = new URLSearchParams();
+      let params = new URLSearchParams();
       params.append("uNo", this.uno);
       params.append("noteNo", this.noteNo);
       params.append("abody", this.abody);

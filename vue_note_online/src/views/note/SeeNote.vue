@@ -1,5 +1,8 @@
 <template>
   <div class="seeNote">
+    <el-backtop target=".seeNote" :right="20" :bottom="30">
+      <i class="el-icon-caret-top"></i>
+    </el-backtop>
     <div class="bk_gray"></div>
     <Menu></Menu>
     <div class="author">
@@ -200,24 +203,23 @@ export default {
       this.menu_open = true
     },
     getNoteMsg(noteNo) {
-      const that = this;
-      const uNo = this.uNo;
+      let uNo = this.uNo;
       this.$axios.get("/seeNote", {
         params: {
           no: noteNo,
           uNo: uNo
         }
       }).then(res => {
-        that.note = res.data;
-        that.arthicle = res.data.arthicle;
+        this.note = res.data;
+        this.arthicle = res.data.arthicle;
         this.$nextTick(() => {
           let blocks = document.querySelectorAll('pre code');
           blocks.forEach((block) => {
             hljs.highlightBlock(block);
           });
         })
-        that.getAuthor(res.data.uno);
-        that.getComment(that.note.nno, that.nowPage);
+        this.getAuthor(res.data.uno);
+        this.getComment(this.note.nno, this.nowPage);
       }).catch(error => {
         this.$message({
           showClose: true,
@@ -228,10 +230,9 @@ export default {
       })
     },
     getAuthor(no) {
-      const that = this;
       this.$axios.get("getAuthor?no=" + no).then(res => {
-        that.author = res.data;
-        that.get_time(res.data.createTime);
+        this.author = res.data;
+        this.get_time(res.data.createTime);
       }).catch(error => {
         this.$message({
           showClose: true,
@@ -242,20 +243,20 @@ export default {
       })
     },
     get_time(createTime) {
-      const cTime = new Date(createTime);
-      const nTime = new Date();
-      const cyear = cTime.getFullYear();
-      const nyear = nTime.getFullYear();
-      const cmonth = cTime.getMonth();
-      const nmonth = nTime.getMonth();
-      const cday = cTime.getDate();
-      const nday = nTime.getDate();
+      let cTime = new Date(createTime);
+      let nTime = new Date();
+      let cyear = cTime.getFullYear();
+      let nyear = nTime.getFullYear();
+      let cmonth = cTime.getMonth();
+      let nmonth = nTime.getMonth();
+      let cday = cTime.getDate();
+      let nday = nTime.getDate();
       if ((nyear - cyear) > 0) {
-        const years = (nyear - cyear) + (nmonth - cmonth) / 12;
+        let years = (nyear - cyear) + (nmonth - cmonth) / 12;
         this.times = years.toFixed(1) + "年"
       } else {
         if ((nmonth - cmonth) > 0) {
-          const months = (nmonth - cmonth) + (nday - cday) / 30;
+          let months = (nmonth - cmonth) + (nday - cday) / 30;
           this.times = months.toFixed(1);
         } else {
           if ((nday - cday) > 0) {
@@ -267,9 +268,8 @@ export default {
       }
     },
     getComment(no, page) {
-      var that = this;
       this.$axios.get("queryComment?nNo=" + no + "&page=" + page).then(res => {
-        that.comments = res.data;
+        this.comments = res.data;
       }).catch(error => {
         this.$message({
           showClose: true,
@@ -286,12 +286,11 @@ export default {
     },
     goComment(comment, nNo, toNo, toName, type) {
       if (comment != '') {
-        var that = this;
-        var params = new URLSearchParams();
+        let params = new URLSearchParams();
         params.append("content", comment);
         params.append("nNo", nNo);
-        params.append("uNo", that.uNo);
-        params.append("uName", that.user.nickname);
+        params.append("uNo", this.uNo);
+        params.append("uName", this.user.nickname);
         params.append("toNo", toNo);
         params.append("toName", toName);
         params.append("cType", type);
@@ -302,7 +301,7 @@ export default {
               message: '评论成功',
               type: 'success'
             });
-            window.location.href = "/seeNote/" + that.noteNo;
+            window.location.href = "/seeNote/" + this.noteNo;
           }
         }).catch(error => {
           this.$message({
@@ -327,33 +326,31 @@ export default {
       window.location.href = "/seeNotebook/" + no;
     },
     goGood() {
-      const uNo = this.uNo
-      const noteNo = this.noteNo;
-      const that = this;
-      var params = new URLSearchParams();
+      let uNo = this.uNo
+      let noteNo = this.noteNo;
+      let params = new URLSearchParams();
       params.append("uNo", uNo);
       params.append("nNo", noteNo);
       params.append("type", 0);
       this.$axios.put("/addGood", params).then(res => {
         if (res.data) {
-          that.note.isGood = true;
-          that.note.ngoodNum += 1;
+          this.note.isGood = true;
+          this.note.ngoodNum += 1;
         }
       }).catch(error => {
         console.log(error)
       })
     },
     cancelGood() {
-      const uNo = this.uNo
-      const noteNo = this.noteNo;
-      const that = this;
-      var params = new URLSearchParams();
+      let uNo = this.uNo
+      let noteNo = this.noteNo;
+      let params = new URLSearchParams();
       params.append("uNo", uNo);
       params.append("nNo", noteNo);
       this.$axios.put("/cancelGood", params).then(res => {
         if (res.data) {
-          that.note.isGood = false;
-          that.note.ngoodNum -= 1;
+          this.note.isGood = false;
+          this.note.ngoodNum -= 1;
         }
       }).catch(error => {
         console.log(error)
@@ -367,34 +364,32 @@ export default {
       }
     },
     cancelCollecte() {
-      const uNo = this.uNo
-      const noteNo = this.noteNo;
-      const that = this;
-      var params = new URLSearchParams();
+      let uNo = this.uNo
+      let noteNo = this.noteNo;
+      let params = new URLSearchParams();
       params.append("uNo", uNo);
       params.append("nNo", noteNo);
       params.append("type", 0);
       this.$axios.put("/cancelCollection", params).then(res => {
         if (res.data) {
-          that.note.isCollection = false;
-          that.note.ncollectionNum -= 1;
+          this.note.isCollection = false;
+          this.note.ncollectionNum -= 1;
         }
       }).catch(error => {
         console.log(error)
       })
     },
     goCollecte() {
-      const uNo = this.uNo
-      const noteNo = this.noteNo;
-      const that = this;
-      var params = new URLSearchParams();
+      let uNo = this.uNo
+      let noteNo = this.noteNo;
+      let params = new URLSearchParams();
       params.append("uNo", uNo);
       params.append("nNo", noteNo);
       params.append("type", 0);
       this.$axios.put("/addCollection", params).then(res => {
         if (res.data) {
-          that.note.isCollection = true;
-          that.note.ncollectionNum += 1;
+          this.note.isCollection = true;
+          this.note.ncollectionNum += 1;
         }
       }).catch(error => {
         console.log(error)
@@ -411,7 +406,7 @@ export default {
       window.location.href = "/changeNote/" + no;
     },
     irr() {
-      const params = new URLSearchParams();
+      let params = new URLSearchParams();
       params.append("iType", this.value);
       params.append("iBody", this.irrReason);
       params.append("irNo", this.uNo);
@@ -432,7 +427,7 @@ export default {
       }).catch(error => {
         this.$message.error("系统错误，请反馈")
       })
-    }
+    },
   },
   created() {
     this.noteNo = this.$route.params.noteNo;
@@ -451,6 +446,8 @@ export default {
 
 <style scoped>
 .seeNote {
+  height: 750px;
+  overflow-x: hidden;
   text-align: left;
   background-image: linear-gradient(120deg, #eeeeee 0%, #fdfbfb 100%);
 }

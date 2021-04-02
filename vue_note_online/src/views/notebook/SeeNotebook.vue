@@ -90,16 +90,15 @@ export default {
   methods: {
     getNotebookMsg(no) {
       this.userNo = this.$store.getters.getUserNo;
-      const uNo = this.userNo;
-      const that = this;
+      let uNo = this.userNo;
       this.$axios.get("getBookMenu", {
         params: {
           no: no,
           uNo: uNo
         }
       }).then(res => {
-        that.notebook = res.data;
-        that.notes = that.notebook.notes;
+        this.notebook = res.data;
+        this.notes = this.notebook.notes;
       }), error => {
         this.$message({
           showClose: true,
@@ -110,7 +109,7 @@ export default {
       }
     },
     goManagement() {
-      const no = this.notebook.bno;
+      let no = this.notebook.bno;
       window.location.href = "/notebookManagement/" + no;
     },
     editbtn() {
@@ -147,32 +146,30 @@ export default {
       })
     },
     goCollecte() {
-      const uNo = this.userNo
-      const noteNo = this.notebookNo;
-      const that = this;
-      var params = new URLSearchParams();
+      let uNo = this.userNo
+      let noteNo = this.notebookNo;
+      let params = new URLSearchParams();
       params.append("uNo", uNo);
       params.append("nNo", noteNo);
       params.append("type", 1);
       this.$axios.put("/addCollection", params).then(res => {
         if (res.data) {
-          that.notebook.isCollection = true;
+          this.notebook.isCollection = true;
         }
       }).catch(error => {
         console.log(error)
       })
     },
     cancelCollecte() {
-      const uNo = this.userNo
-      const noteNo = this.notebookNo;
-      const that = this;
-      var params = new URLSearchParams();
+      let uNo = this.userNo
+      let noteNo = this.notebookNo;
+      let params = new URLSearchParams();
       params.append("uNo", uNo);
       params.append("nNo", noteNo);
       params.append("type", 1);
       this.$axios.put("/cancelCollection", params).then(res => {
         if (res.data) {
-          that.notebook.isCollection = false;
+          this.notebook.isCollection = false;
         }
       }).catch(error => {
         console.log(error)

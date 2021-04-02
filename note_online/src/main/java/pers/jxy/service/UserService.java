@@ -1,6 +1,5 @@
 package pers.jxy.service;
 
-import org.apache.ibatis.annotations.Select;
 import pers.jxy.entity.AddressUserNum;
 import pers.jxy.entity.User;
 
@@ -122,4 +121,9 @@ public interface UserService {
      * 查询地区人数
      */
     TreeSet<AddressUserNum> selectAddressNum();
+
+    /**
+     * 查询用户状态
+     */
+    Boolean getUserState(Integer no);
 }

@@ -256,4 +256,12 @@ public class UserController {
     TreeSet<AddressUserNum> addressUserNum() {
         return userService.selectAddressNum();
     }
+
+    /**
+     * 查询用户状态
+     */
+    @GetMapping("/getUserState")
+    public Boolean getUserState(Integer no) {
+        return userService.getUserState(no);
+    }
 }

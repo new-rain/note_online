@@ -78,22 +78,21 @@ export default {
       }
     },
     checkOld() {
-      const that = this;
       this.$axios.get("/checkOldPassword", {
         params: {
-          no: that.user.no,
-          password: that.oldPassword
+          no: this.user.no,
+          password: this.oldPassword
         }
       }).then(res => {
         if (res.data) {
-          that.active++;
+          this.active++;
         } else {
           this.$message({
             showClose: true,
             message: '密码错误',
             type: 'error'
           });
-          that.oldPassword = '';
+          this.oldPassword = '';
         }
       }).catch(error => {
         this.$message({
@@ -107,17 +106,16 @@ export default {
       this.active++;
     },
     update() {
-      const password = this.password;
-      const pwd = this.newPassword;
+      let password = this.password;
+      let pwd = this.newPassword;
       if (password == pwd) {
-        const no = this.user.no;
-        const that = this;
-        const params = new URLSearchParams();
+        let no = this.user.no;
+        let params = new URLSearchParams();
         params.append("no", no);
         params.append("password", password);
         this.$axios.put("/updatepassword", params).then(res => {
           if (res.data) {
-            that.active++;
+            this.active++;
             this.$store.commit("REMOVE_STATE");
           } else {
             this.$message({
@@ -125,7 +123,7 @@ export default {
               message: '密码错误',
               type: 'error'
             });
-            that.oldPassword = '';
+            this.oldPassword = '';
           }
         }).catch(error => {
           this.$message({

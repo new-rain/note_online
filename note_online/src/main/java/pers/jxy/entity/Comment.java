@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -19,7 +20,7 @@ import java.util.List;
 @Getter
 @Setter
 @JsonIgnoreProperties(value = {"handler"})
-public class Comment {
+public class Comment  implements Serializable {
     private Integer cNo;
     private String cContent;
     private Integer cToNno;

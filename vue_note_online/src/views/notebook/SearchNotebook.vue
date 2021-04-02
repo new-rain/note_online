@@ -97,12 +97,11 @@ export default {
   methods: {
     getNotebooks(keyWord) {
       this.noData = true;
-      const that = this;
       this.$axios.get("/searchNotebooks?keyWord=" + keyWord).then(res => {
         if (res.data.length > 0) {
-          that.noData = false;
+          this.noData = false;
         }
-        that.notebooks = res.data;
+        this.notebooks = res.data;
         this.getMaxGood(res.data);
         this.getMaxRead(res.data);
         this.getMaxComment(res.data);

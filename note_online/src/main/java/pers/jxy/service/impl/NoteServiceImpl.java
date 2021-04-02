@@ -35,7 +35,7 @@ public class NoteServiceImpl implements NoteService {
         note.setCreateTime(NoteBookOnlineUtils.getToday());
         Integer res = noteDao.saveNote(note);
         Integer nNo = note.getNNo();
-        String path = NoteUtil.saveArthicle(nNo + "", article);
+        String path = NoteUtil.saveArthicle(nNo +"---"+ nname, article);
         Integer result = noteDao.savePath(path, nNo);
         if (res > 0 && result > 0) {
             return nNo;
@@ -93,8 +93,6 @@ public class NoteServiceImpl implements NoteService {
         res.addAll(notes1);
         List<Note> notes2 = noteDao.fuzzySearchNote2(name);
         res.addAll(notes2);
-        List<Note> notes3 = noteDao.fuzzySearchNote3(name);
-        res.addAll(notes3);
         return res;
     }
 
@@ -211,9 +209,13 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public Object[] select7DayVNum() {
         Object[] o = new Object[2];
-        LinkedList<Integer> sevenDayNums = noteDao.select7DayVNum();
-        Collections.reverse(sevenDayNums);
         List<String> sevenDate = NoteBookOnlineUtils.get7MdDate();
+        List<String> yMdDate = NoteBookOnlineUtils.get7yMdDate();
+        LinkedList<Integer> sevenDayNums = new LinkedList<>();
+        for (int i = 0; i < yMdDate.size(); i++) {
+            Integer num = noteDao.select7DayVNum(yMdDate.get(i));
+            sevenDayNums.add(num);
+        }
         o[0] = sevenDate;
         o[1] = sevenDayNums;
         return o;

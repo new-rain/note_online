@@ -115,11 +115,10 @@ export default {
       this.getNotebook();
     },
     getNotebook() {
-      const no = this.nno;
-      const that = this;
+      let no = this.nno;
       this.$axios.get("getNoteBook?no=" + no).then(res => {
-        that.notebook = res.data;
-        if (that.userNo != that.notebook.uno) {
+        this.notebook = res.data;
+        if (this.userNo != this.notebook.uno) {
           this.$message({
             showClose: true,
             message: '没有修改权限',
@@ -142,8 +141,8 @@ export default {
       this.notebook.btypes.splice(this.notebook.btypes.indexOf(tag), 1);
     },
     pushTag() {
-      const newTag = this.newTag;
-      const index = this.notebook.btypes.indexOf(newTag);
+      let newTag = this.newTag;
+      let index = this.notebook.btypes.indexOf(newTag);
       if (index === -1) {
         if (newTag !== '') {
           this.notebook.btypes.push(newTag);
@@ -165,14 +164,13 @@ export default {
       });
     },
     update() {
-      const no = this.notebook.bno;
-      const name = this.notebook.bname;
-      const describe = this.notebook.bdescribe;
-      const type = this.notebook.btypes;
-      const coverUrl = this.notebook.coverUrl;
-      const power = this.notebook.bpower;
-      const that = this;
-      const params = new URLSearchParams();
+      let no = this.notebook.bno;
+      let name = this.notebook.bname;
+      let describe = this.notebook.bdescribe;
+      let type = this.notebook.btypes;
+      let coverUrl = this.notebook.coverUrl;
+      let power = this.notebook.bpower;
+      let params = new URLSearchParams();
       params.append("no", no);
       params.append("name", name);
       params.append("describe", describe);

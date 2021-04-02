@@ -7,7 +7,10 @@ import org.commonmark.ext.heading.anchor.HeadingAnchorExtension;
 import org.commonmark.node.Link;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
-import org.commonmark.renderer.html.*;
+import org.commonmark.renderer.html.AttributeProvider;
+import org.commonmark.renderer.html.AttributeProviderContext;
+import org.commonmark.renderer.html.AttributeProviderFactory;
+import org.commonmark.renderer.html.HtmlRenderer;
 import pers.jxy.entity.NoteBook;
 
 import java.io.*;
@@ -34,7 +37,7 @@ public class NoteUtil {
      * @return
      */
     public static String saveArthicle(String name, String arthicle) {
-        String path = "src/main/resources/static/artices/" + name + ".md";
+        String path = "D:/artices/" + name + ".md";
         Boolean res = writeNote(arthicle, path);
         if (res) {
             return path;
@@ -76,12 +79,14 @@ public class NoteUtil {
     public static String getArthicle(String path) {
         String arthicle = "";
         File file = new File(path);
-        FileReader fileReader = null;
+//        FileReader fileReader = null;
+        BufferedReader br=null;
         try {
-            fileReader = new FileReader(file);
+            br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+//            fileReader = new FileReader(file, Charset.forName("UTF-8"));
             char[] ch = new char[1024];
             int data;
-            while ((data = fileReader.read(ch)) != -1) {
+            while ((data = br.read(ch)) != -1) {
                 arthicle += new String(ch, 0, data);
             }
             return arthicle;
@@ -90,8 +95,8 @@ public class NoteUtil {
             return arthicle;
         } finally {
             try {
-                if (fileReader != null) {
-                    fileReader.close();
+                if (br != null) {
+                    br.close();
                 }
             } catch (IOException e) {
                 e.printStackTrace();

@@ -7,7 +7,8 @@ export default new Vuex.Store({
     state: {
         user: JSON.parse(localStorage.getItem('user')),
         userNo: localStorage.getItem('userNo'),
-        admin: localStorage.getItem('admin'),
+        admin: JSON.parse(localStorage.getItem('admin')),
+        adminNo: localStorage.getItem('adminNo'),
     },
     mutations: {
         SET_USER: (state, user) => {
@@ -20,7 +21,11 @@ export default new Vuex.Store({
         },
         SET_ADMIN: (state, admin) => {
             state.admin = admin;
-            localStorage.setItem("admin", admin);
+            localStorage.setItem("admin", JSON.stringify(admin));
+        },
+        SET_ADMINNO: (state, adminNo) => {
+            state.adminNo = adminNo;
+            localStorage.setItem("adminNo", adminNo);
         },
         REMOVE_STATE: (state) => {
             state.user = {};
@@ -42,6 +47,9 @@ export default new Vuex.Store({
         },
         getAdmin: state => {
             return state.admin;
+        },
+        getAdminNo: state => {
+            return state.adminNo;
         },
         exit: state => {
             return state;

@@ -52,7 +52,6 @@ export default {
   },
   methods: {
     getIrr(page) {
-      const that = this;
       this.$axios.get("/selectIrrs", {
         params: {
           page: page

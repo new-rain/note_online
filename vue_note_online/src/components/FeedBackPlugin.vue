@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     feedback() {
-      const params = new URLSearchParams();
+      let params = new URLSearchParams();
       params.append("no", this.no);
       params.append("type", this.type);
       params.append("body", this.body);

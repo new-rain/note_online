@@ -40,12 +40,11 @@ export default {
   },
   methods: {
     timeMinus() {
-      const that = this;
       this.timer = setInterval(() => {
-        if (that.time > 0) {
-          that.time -= 1;
-        } else if (that.time == 0) {
-          that.back();
+        if (this.time > 0) {
+          this.time -= 1;
+        } else if (this.time == 0) {
+          this.back();
         }
       }, 1000)
     },

@@ -62,9 +62,8 @@ export default {
   },
   methods: {
     getDateAndData() {
-      const that = this;
       this.$axios.get("/getNoteNumMsg").then(res => {
-        const myChart = that.$echarts.init(document.getElementById("main"));
+        let myChart = this.$echarts.init(document.getElementById("main"));
         myChart.setOption({
           title: {
             text: "近七天笔记新增量",
@@ -87,9 +86,8 @@ export default {
       })
     },
     getVisitData() {
-      const that = this;
       this.$axios.get("/select7DayVNum").then(res => {
-        const myChart = that.$echarts.init(document.getElementById("visitNum"));
+        let myChart = this.$echarts.init(document.getElementById("visitNum"));
         myChart.setOption({
           title: {
             text: "近七天浏览量",
@@ -112,9 +110,8 @@ export default {
       })
     },
     getHot() {
-      const that = this;
       this.$axios.get("/queryHot").then(res => {
-        that.hotNotes = res.data;
+        this.hotNotes = res.data;
       }).catch(error => {
         this.$message.error("获取信息出错")
       })

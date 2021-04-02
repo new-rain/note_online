@@ -109,8 +109,8 @@ export default {
       window.location.href = "/admin/auditSuccess/" + this.note.nname + "/" + this.note.nno + "/" + this.irr.irType + "/" + aduitRes;
     },
     sendMsg(aduitRes, onekey) {
-      const msg = this.getIrrResult(this.irr.inName, aduitRes, this.irr.irType);
-      const params = new URLSearchParams();
+      let msg = this.getIrrResult(this.irr.inName, aduitRes, this.irr.irType);
+      let params = new URLSearchParams();
       params.append("inNo", this.irr.inNo);
       params.append("iType", this.irr.itype);
       params.append("iNo", this.no);
@@ -125,7 +125,7 @@ export default {
       })
     },
     getIrrResult(nname, audit, reason) {
-      const msg = [];
+      let msg = [];
       if (audit == 1) {
         msg[0] = "感谢您的举报，经审核，我们已对文章《" + nname + "》做出责令修改的决定";
         msg[1] = "经审核，您的文章《" + this.note.nno + "->" + nname + "》由于" + reason + "，请您限时修改";

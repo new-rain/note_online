@@ -83,7 +83,6 @@ export default {
     getData() {
       this.userNo = this.$store.getters.getUserNo;
       this.timeOrder = !this.timeOrder;
-      const that = this;
       this.$axios.get('queryGroupByTime', {
         params: {
           no: this.userNo,

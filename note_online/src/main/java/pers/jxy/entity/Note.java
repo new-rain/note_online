@@ -26,6 +26,7 @@ public class Note implements Serializable {
     private Integer nCommentNum;
     private Integer nbNo;
     private Integer uNo;
+    private String uName;
     private Boolean isGood;
     private Boolean isCollection;
     private String createTime;

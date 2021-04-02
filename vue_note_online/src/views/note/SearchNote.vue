@@ -45,7 +45,9 @@
           </div>
           <div v-else v-for="(note,index) in notes" class="ta_l pd_lr_30 mgt_20" @click="see(note.nno)">
             <el-row>
-              <el-col :span="18 "><b>{{ note.nname }}</b></el-col>
+              <el-col :span="18 "><b>{{ note.nname }}</b><span class="fs_10 mgl_20 color_grey"
+                                                               @click.stop="goAuthor(note.uno)">{{ note.uname }}</span>
+              </el-col>
               <el-col :span="6">
                 <i class="el-icon-thumb">{{ note.ngoodNum }}</i>
                 <i class="el-icon-reading mgl_50">{{ note.nreadNum }}</i>
@@ -91,12 +93,11 @@ export default {
     getNotes(keyWord) {
       this.havaData = true;
       this.noData = true;
-      const that = this;
       this.$axios.get("/searchNotes?keyWord=" + keyWord).then(res => {
         if (res.data.length > 0) {
-          that.noData = false;
+          this.noData = false;
         }
-        that.notes = res.data;
+        this.notes = res.data;
         this.getMaxRead(res.data);
         this.getMaxComment(res.data);
         this.getMaxGoodNum(res.data);
@@ -110,7 +111,7 @@ export default {
     },
     getMaxRead(list) {
       let note = list[0];
-      for (var i = 0; i < list.length; i++) {
+      for (let i = 0; i < list.length; i++) {
         if (list[i].nreadNum > note.nreadNum) {
           note = list[i];
         }
@@ -119,7 +120,7 @@ export default {
     },
     getMaxComment(list) {
       let note = list[0];
-      for (var i = 0; i < list.length; i++) {
+      for (let i = 0; i < list.length; i++) {
         if (list[i].ncommentNum > note.ncommentNum) {
           note = list[i];
         }
@@ -128,7 +129,7 @@ export default {
     },
     getMaxGoodNum(list) {
       let note = list[0];
-      for (var i = 0; i < list.length; i++) {
+      for (let i = 0; i < list.length; i++) {
         if (list[i].ngoodNum > note.ngoodNum) {
           note = list[i];
         }
@@ -137,6 +138,13 @@ export default {
     },
     see(no) {
       window.location.href = '/seeNote/' + no;
+    },
+    goAuthor(no) {
+      if (no == this.$store.getters.getUserNo) {
+        window.location.href = "/user";
+      } else {
+        window.location.href = "/friend/friendHome/" + no;
+      }
     }
   },
   created() {

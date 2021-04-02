@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #adminRegister {
+            background-color: rgba(32, 140, 255, 0.1);
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="adminRegister">
+    <!--    <form action="/adminRegister" method="post" enctype="multipart/form-data">-->
+    <!--        <input class="input" name="name" placeholder="请输入昵称"/><br><br>-->
+    <!--        <input class="input" name="password" placeholder="请设置密码"/><br><br>-->
+    <!--        <input class="input" name="pwd" placeholder="请确认密码"/><br><br>-->
+    <!--        <input class="input" name="mobile" placeholder="请输入手机号"/><br><br>-->
+    <!--        <input class="input" name="email" placeholder="请输入邮箱"/><br><br>-->
+    <!--        头像：<input class="input" type="file" name="img"/><br><br>-->
+    <!--        <input type="submit" class="submit" value="添 加"/><br><br>-->
+    <!--    </form>-->
+<!--    <form method="post" action="/upload" enctype="multipart/form-data">-->
+<!--        <input type="file" name="file"><br>-->
+<!--        <input type="submit" value="提交">-->
+<!--    </form>-->
+</div>
+
+</body>
+<script>
+    new Vue({
+        el: "#adminRegister",
+        data: {},
+        methods: {
+            jump(no) {
+
+            }
+        }
+    })
+</script>
+</html>

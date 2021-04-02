@@ -1,11 +1,15 @@
 package pers.jxy;
 
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import pers.jxy.dao.AdminDao;
+import pers.jxy.service.AdminService;
 import pers.jxy.service.UserService;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 @SpringBootTest
 class NoteOnlineApplicationTests {
@@ -16,6 +20,29 @@ class NoteOnlineApplicationTests {
 
     @Autowired
     JavaMailSenderImpl javaMailSender;
+
+    @Autowired
+    AdminDao adminDao;
+
+    @Autowired
+    AdminService adminService;
+
+    @Test
+    void test(){
+        System.out.println(adminDao.selectRegisterNum("12346")==null);
+    }
+
+    @Test
+    void test1(){
+//        System.out.println(adminService.getRNum(50));
+    }
+
+    @Test
+    void test2(){
+        Map<String, Integer> ra = adminDao.selectRegisterNum("299EpaIQr4p6V3ZvM1opPA4HAL40Mv436o1DkY3qg3D044X5oL");
+        System.out.println(ra.get("rnum"));
+        System.out.println(ra.get("admin"));
+    }
 //
 //    @Test
 //    void contextLoads() {

@@ -17,7 +17,7 @@ public interface UserDao {
     /**
      * 新增用户，并返回主键
      */
-    @Options(useGeneratedKeys = true, keyProperty = "no", keyColumn = "no ")
+    @Options(useGeneratedKeys = true, keyProperty = "no", keyColumn = "no")
     @Insert("insert into user (nickname,password,email,headUrl,create_time)" +
             " values (#{user.nickname},#{user.password},#{user.email},#{user.headUrl},#{user.createTime})")
     Integer register(@Param("user") User user);
@@ -38,7 +38,7 @@ public interface UserDao {
      * 根据邮箱验证修改密码
      */
     @Update("update user set password = #{user.password} where no=#{user.no}")
-    Integer updatePassword(@Param("user") User user);
+    Boolean updatePassword(@Param("user") User user);
 
     /**
      * 修改个人信息
@@ -270,4 +270,10 @@ public interface UserDao {
      */
     @Select("select no from user where state = 1")
     List<Integer> getUserNo();
+
+    /**
+     * 查询账号状态
+     */
+    @Select("select state from user where no = #{no}")
+    Boolean getUserState(@Param("no") Integer no);
 }

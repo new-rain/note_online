@@ -196,7 +196,7 @@ export default {
   },
   methods: {
     getMsg() {
-      const no = this.$route.params.friendNo;
+      let no = this.$route.params.friendNo;
       this.friendNo = no;
       this.getFriendMsg(no);
       this.getFriendAttention(no);
@@ -204,16 +204,15 @@ export default {
       this.getFriendColNote(no);
     },
     getFriendMsg(no) {
-      const that = this;
       this.$axios.get("/getFriendMsg", {
         params: {
           no: no
         }
       }).then(res => {
-        that.friend = res.data;
-        that.get_time(that.friend.createTime);
-        that.background = 'background:url(' + res.data.headUrl + ') no-repeat center center';
-        that.getFriendNotebook(2);
+        this.friend = res.data;
+        this.get_time(this.friend.createTime);
+        this.background = 'background:url(' + res.data.headUrl + ') no-repeat center center';
+        this.getFriendNotebook(2);
       }).catch(error => {
         console.log(error);
         this.$message.error('获取好友信息出错');
@@ -242,20 +241,20 @@ export default {
       })
     },
     get_time(createTime) {
-      const cTime = new Date(createTime);
-      const nTime = new Date();
-      const cyear = cTime.getFullYear();
-      const nyear = nTime.getFullYear();
-      const cmonth = cTime.getMonth();
-      const nmonth = nTime.getMonth();
-      const cday = cTime.getDate();
-      const nday = nTime.getDate();
+      let cTime = new Date(createTime);
+      let nTime = new Date();
+      let cyear = cTime.getFullYear();
+      let nyear = nTime.getFullYear();
+      let cmonth = cTime.getMonth();
+      let nmonth = nTime.getMonth();
+      let cday = cTime.getDate();
+      let nday = nTime.getDate();
       if ((nyear - cyear) > 0) {
-        const years = (nyear - cyear) + (nmonth - cmonth) / 12;
+        let years = (nyear - cyear) + (nmonth - cmonth) / 12;
         this.times = years.toFixed(1) + "年"
       } else {
         if ((nmonth - cmonth) > 0) {
-          const months = (nmonth - cmonth) + (nday - cday) / 30;
+          let months = (nmonth - cmonth) + (nday - cday) / 30;
           this.times = months.toFixed(1);
         } else {
           if ((nday - cday) > 0) {
@@ -267,26 +266,24 @@ export default {
       }
     },
     getFriendNotebook(type) {
-      const that = this;
       this.$axios.get("/orderQueryNoteBookByTime", {
         params: {
-          no: that.friend.no,
+          no: this.friend.no,
           type: type
         }
       }).then(res => {
-        that.notebooks = res.data;
+        this.notebooks = res.data;
       }).catch(error => {
         this.$message.error('获取信息失败');
       })
     },
     getFriendAttention(no) {
-      const that = this;
       this.$axios.get("/getFriendAttention", {
         params: {
           no: no
         }
       }).then(res => {
-        that.attentions = res.data;
+        this.attentions = res.data;
       }).catch(error => {
         console.log(error);
         this.$message.error('获取好友关注列表出错');
@@ -300,14 +297,13 @@ export default {
     },
     leaveMessage() {
       if (this.mBody != '') {
-        const that = this;
-        const params = new URLSearchParams();
+        let params = new URLSearchParams();
         params.append("mBody", this.mBody);
         params.append("mToWhoNo", this.friendNo);
         params.append("mWhoToNo", this.$store.getters.getUserNo);
         this.$axios.post("/leaveMessage", params).then(res => {
           if (res.data) {
-            that.mBody = null;
+            this.mBody = null;
             this.$message({
               showClose: true,
               message: '留言成功',

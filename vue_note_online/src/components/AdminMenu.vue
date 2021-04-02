@@ -6,8 +6,8 @@
         text-color="#fff"
         active-text-color="#ffd04b">
       <el-menu-item class="menu_item" index="0">
-        <img :src="logo"/>
-        <p>管理员</p>
+        <img :src="logo"/><br/>
+        <p>{{ admin.name }}</p>
       </el-menu-item>
       <el-submenu index="1">
         <template slot="title">
@@ -19,7 +19,7 @@
           <el-menu-item index="1-2" @click="jump(2)">用户数据分析</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-submenu index="2">
+      <el-submenu index="2" v-if="admin.id!=1">
         <template slot="title">
           <i class="el-icon-jxy-jubao"></i>
           <span>违规处理</span>
@@ -29,7 +29,7 @@
           <el-menu-item index="2-3" @click="jump(4)">处理记录</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-menu-item index="3" @click="jump(5)">
+      <el-menu-item index="3" @click="jump(5)" v-if="admin.id!=1">
         <i class="el-icon-bell"></i>
         <span slot="title">申诉处理</span>
       </el-menu-item>
@@ -41,7 +41,31 @@
         <i class="el-icon-chat-line-round"></i>
         <span slot="title">用户反馈</span>
       </el-menu-item>
-      <el-menu-item index="5" @click="jump(8)">
+      <el-menu-item index="6" @click="jump(8)">
+        <i class="el-icon-document-delete"></i>
+        <span slot="title">敏感词汇管理</span>
+      </el-menu-item>
+      <el-submenu index="7">
+        <template slot="title">
+          <i class="el-icon-chat-line-round"></i>
+          <span>个人信息</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="7-1" @click="jump(9)">查看修改</el-menu-item>
+          <el-menu-item index="7-2" @click="jump(10)">修改密码</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+      <el-submenu index="8" v-if="admin.id==1">
+        <template slot="title">
+          <i class="el-icon-s-check"></i>
+          <span>管理员管理</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="7-1" @click="jump(9)">管理员查看</el-menu-item>
+          <el-menu-item index="7-2" @click="jump(10)">生成注册码</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+      <el-menu-item index="8" @click="jump(11)">
         <i class="el-icon-upload2"></i>
         <span slot="title">退出管理员</span>
       </el-menu-item>
@@ -56,7 +80,8 @@ export default {
   name: "AdminMenu",
   data() {
     return {
-      logo: logo
+      logo: logo,
+      admin: ''
     }
   },
   methods: {
@@ -76,14 +101,21 @@ export default {
       } else if (no == 7) {
         window.location.href = "/admin/checkFeedback";
       } else if (no == 8) {
+        window.location.href = "/admin/shieldManage";
+      } else if (no == 9) {
+        window.location.href = "/admin/adminUpdate";
+      }  else if (no == 10) {
+        window.location.href = "/admin/addRNum";
+      } else if (no == 11) {
         this.$store.commit("REMOVE_ADMIN");
         window.location.href = "/admin/login";
       }
     }
   },
   created() {
-    const admin = this.$store.getters.getAdmin;
-    if (admin != 'note_online_admin') {
+    let admin = this.$store.getters.getAdmin;
+    this.admin = admin;
+    if (admin == null) {
       alert("请先登录管理员账号")
       window.location.href = '/admin/login'
     }

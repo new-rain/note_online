@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     checkmail() {
-      const myreg = noteOnline.mailFormat();
+      let myreg = noteOnline.mailFormat();
       if (!myreg.test(this.email)) {
         this.$message({
           showClose: true,
@@ -71,7 +71,7 @@ export default {
         setTimeout(() => {
           this.canGetCode = false
         }, 5000)
-        const email = this.email;
+        let email = this.email;
         if (email != "") {
           this.$axios.get("/getcode?email=" + email).then(res => {
             if (res.data) {
@@ -108,10 +108,10 @@ export default {
       }
     },
     check() {
-      const password = this.password;
-      const pwd = this.pwd;
-      const no = this.no;
-      const email = this.email;
+      let password = this.password;
+      let pwd = this.pwd;
+      let no = this.no;
+      let email = this.email;
       if (no != "", password != "" && pwd != "" && email != "") {
         if (password != pwd) {
           this.$message({
@@ -120,16 +120,15 @@ export default {
             type: 'warning'
           });
         } else {
-          var code = this.code;
-          var params = new URLSearchParams();
+          let code = this.code;
+          let params = new URLSearchParams();
           params.append("email", email);
           params.append("code", code);
-          var that = this;
           this.$axios.post("/checkcode", params).then(res => {
-            var res = res.data;
-            if (res) {
-              that.flag = true;
-              that.update(no, password);
+            let result = res.data;
+            if (result) {
+              this.flag = true;
+              this.update(no, password);
             } else {
               this.$message({
                 showClose: true,
@@ -155,9 +154,9 @@ export default {
 
     },
     update(no, password) {
-      const flag = this.flag;
+      let flag = this.flag;
       if (flag) {
-        var params = new URLSearchParams();
+        let params = new URLSearchParams();
         params.append("no", no);
         params.append("password", password);
         this.$axios.put("updatepassword", params).then(res => {

@@ -57,7 +57,6 @@ public class IrregularityServiceImpl implements IrregularityService {
             //处理相似的记录（笔记账号，举报类型）
             irregularityDao.batchAduit(inNo, iType, res, NoteBookOnlineUtils.getNow());
             //给所有举报者发送信息
-            System.out.println(nos);
             for (Integer no : nos) {
                 message.setMToWhoNo(no);
                 Boolean bol = messageDao.leaveMessage(message);

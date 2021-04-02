@@ -3,9 +3,9 @@ package pers.jxy.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pers.jxy.entity.Note;
-import pers.jxy.entity.NoteBook;
 import pers.jxy.service.NoteService;
 import pers.jxy.util.NoteBookOnlineUtils;
+import pers.jxy.util.ShieldUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -160,5 +160,21 @@ public class NoteController {
     @GetMapping("/select7DayVNum")
     public Object[] select7DayVNum() {
         return noteService.select7DayVNum();
+    }
+
+    /**
+     * 获取敏感词
+     */
+    @GetMapping("/getShields")
+    public List<String> getShields() {
+        return ShieldUtil.SHIELDS;
+    }
+
+    /**
+     * 添加敏感词
+     */
+    @PostMapping("/addShield")
+    public Integer addShield(String shield) {
+        return ShieldUtil.addShield(shield);
     }
 }

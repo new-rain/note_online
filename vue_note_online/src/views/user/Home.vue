@@ -16,18 +16,22 @@
         <i class="el-icon-reading"></i>
         <p>笔记本</p>
       </div>
-      <div class="home_block h_hover">
-        <el-tooltip class="item" effect="light" content="时间归档" placement="top">
-          <div class="top_i" @click="classifyTime">
-            <i class="el-icon-folder"></i>
-          </div>
-        </el-tooltip>
-        <el-tooltip class="item" effect="light" content="标签归档" placement="bottom">
-          <div class="bottom_p" @click="classifyType">
-            <p>归档</p>
-          </div>
-        </el-tooltip>
+      <div class="home_block" @click="classifyType">
+        <i class="el-icon-folder"></i>
+        <p>归档</p>
       </div>
+<!--      <div class="home_block h_hover">-->
+<!--        <el-tooltip class="item" effect="light" content="时间归档" placement="top">-->
+<!--          <div class="top_i" @click="classifyTime">-->
+<!--            <i class="el-icon-folder"></i>-->
+<!--          </div>-->
+<!--        </el-tooltip>-->
+<!--        <el-tooltip class="item" effect="light" content="标签归档" placement="bottom">-->
+<!--          <div class="bottom_p" @click="classifyType">-->
+<!--            <p>归档</p>-->
+<!--          </div>-->
+<!--        </el-tooltip>-->
+<!--      </div>-->
       <div class="home_block h_hover">
         <el-tooltip class="item" effect="light" content="笔记本查找" placement="top">
           <div class="top_i" @click="searchNotebook">

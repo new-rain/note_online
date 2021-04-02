@@ -53,9 +53,8 @@ export default {
   methods: {
     getData() {
       this.userNo = this.$store.getters.getUserNo;
-      const that = this;
       this.$axios.get('queryGroupByType?no=' + this.userNo).then(res => {
-        that.res = res.data;
+        this.res = res.data;
       }).catch(error => {
         this.$message({
           showClose: true,

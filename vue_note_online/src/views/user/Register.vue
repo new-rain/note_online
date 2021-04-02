@@ -6,9 +6,17 @@
         <div class="blank_100">&nbsp;</div>
       </el-col>
       <el-col :span="10" class="left">
-        <h2>在线笔记系统</h2>
-        <p>一个在线笔记平台</p>
-        <p>想记就记，想取就取，抓住灵感</p>
+        <h2 class="pd_30">在线笔记系统</h2>
+        <h3>一个在线笔记平台</h3><br>
+        <b>想记就记，抓住灵感</b><br>
+        <b>想取就取，即时发现</b><br>
+        <div class="about">
+          <p>本项目是我的大学毕业设计,是一个基于SpringBoot+Vue+MySql的在线笔记本；
+            毕业设计选择这个题目的原因是：自己在学习时有做笔查找笔记的情况。</p>
+          <p>查找了目前主流的笔记应用，发现大部分都是本地应用，且流行的全为本地应用。
+            虽然能实现远程同步，但需要在本地设备上安装相应的App。有极大的局限性。</p>
+          <p>所以，在毕业设计选题时选择了这个题目。希望能实现一个跨平台，有分享性，能随时随地获取信息的在线笔记本系统</p>
+        </div>
       </el-col>
       <el-col :span="10" class="right">
         <div></div>
@@ -20,7 +28,7 @@
             <el-input class="checkcode" v-model="idecode" placeholder="请输入验证码"></el-input>
             <el-button class="getcode" type="primary" @click="getcode()" :disabled="canGetCode">获取验证码</el-button>
           </div>
-          <el-input class="mgt_20" type="password" v-model="password" placeholder="请输入密码"></el-input>
+          <el-input class="mgt_20" type="password" v-model="password" placeholder="请输入6-18位密码，可以包含字母、数字" @blur="checkPassword()"></el-input>
           <el-input class="mgt_20" type="password" v-model="pwd" placeholder="请确认密码"></el-input>
           <div class="ta_l">
             <el-button class="mgt_20 wd_30" type="primary" plain @click="choose=true">选择头像</el-button>
@@ -103,6 +111,7 @@
 
 <script>
 import '@/assets/css/notebook_online.css'
+import reg from '@/assets/js/reg'
 
 export default {
   name: "Register",
@@ -124,14 +133,23 @@ export default {
   },
   methods: {
     checkmail() {
-      const myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+      let myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
       if (!myreg.test(this.email)) {
         this.$message({
           showClose: true,
           message: '请输入正确的邮箱格式',
           type: 'warning'
         });
-        document.getElementById("email").focus();
+      }
+    },
+    checkPassword(){
+      let psd = /^[a-z0-9]{6,18}$/;
+      if(!psd.test(this.password)){
+        this.$message({
+          showClose: true,
+          message: '密码格式错误',
+          type: 'warning'
+        });
       }
     },
     getcode() {
@@ -140,7 +158,7 @@ export default {
         setTimeout(() => {
           this.canGetCode = false
         }, 60000)
-        const email = this.email;
+        let email = this.email;
         if (email !== "") {
           this.$axios.get("getcode?email=" + email).then(res => {
             if (res.data) {
@@ -183,10 +201,10 @@ export default {
           message: '请先勾选同意使用条款进行注册',
         });
       } else {
-        const password = this.password;
-        const pwd = this.pwd;
-        const username = this.username;
-        const email = this.email;
+        let password = this.password;
+        let pwd = this.pwd;
+        let username = this.username;
+        let email = this.email;
         if (username != null && password != null && pwd != null && email != null) {
           if (password != pwd) {
             this.$message({
@@ -195,16 +213,15 @@ export default {
               type: 'warning'
             });
           } else {
-            const code = this.idecode;
-            const params = new URLSearchParams();
+            let code = this.idecode;
+            let params = new URLSearchParams();
             params.append("email", email);
             params.append("code", code);
-            const that = this;
             this.$axios.post("/checkcode", params).then(res => {
-              const result = res.data;
+              let result = res.data;
               if (result) {
-                that.flag = true;
-                that.register(username, password, email);
+                this.flag = true;
+                this.register(username, password, email);
               }
             }).catch(error => {
               this.$message({
@@ -224,22 +241,21 @@ export default {
       }
     },
     register(username, password, email) {
-      const flag = this.flag;
+      let flag = this.flag;
       if (flag) {
-        const params = new URLSearchParams();
+        let params = new URLSearchParams();
         params.append("username", username);
         params.append("password", password);
         params.append("email", email);
         params.append("headerUrl", this.headUrl);
-        const that = this;
         this.$axios.post("register", params).then(res => {
-          const result = res.data;
+          let result = res.data;
           if (result[0] === 0) {
-            const no = result[1];
+            let no = result[1];
             alert('注册成功，您的账号是：' + no)
             window.location.href = "/login"
           } else if (result[0] === 1) {
-            const no = result[1];
+            let no = result[1];
             this.$message({
               showClose: true,
               message: '该邮箱已注册',
@@ -299,7 +315,13 @@ export default {
 .left h2 {
   font-size: 40px;
   margin-top: 20px;
+  font-weight: bold;
+  color: #ffffff;
   font-family: 'Times New Roman', Times, serif;
+}
+
+.left p, h3, b {
+  color: #ffffff;
 }
 
 .right {
@@ -354,6 +376,15 @@ export default {
   width: 120px;
   height: 120px;
   border-radius: 50%;
+}
+
+.about {
+  padding: 30px;
+  width: 60%;
+  text-align: left;
+  font-size: 10px;
+  margin: 0 auto;
+  margin-top: 80px;
 }
 
 </style>

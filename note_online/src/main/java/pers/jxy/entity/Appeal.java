@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
  * @author:靳新宇
  * @date : 02-26 19:03
@@ -13,7 +15,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @JsonIgnoreProperties(value = {"handler"})
-public class Appeal {
+public class Appeal implements Serializable {
     private Integer aNo;
     private Integer auNo;
     private String auName;

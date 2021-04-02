@@ -175,9 +175,8 @@ export default {
   },
   methods: {
     getRegisterNum() {
-      const that = this;
       this.$axios.get("/selectRegisterNum").then(res => {
-        const myChart = that.$echarts.init(document.getElementById("main"));
+        let myChart = this.$echarts.init(document.getElementById("main"));
         myChart.setOption({
           title: {
             text: "近七天注册量",
@@ -210,10 +209,9 @@ export default {
       })
     },
     getUserAddress() {
-      const that = this;
       this.$axios.get("/addressUserNum").then(res => {
-        that.addressUserNum = res.data;
-        const myChart = that.$echarts.init(document.getElementById("userAddress"));
+        this.addressUserNum = res.data;
+        let myChart = this.$echarts.init(document.getElementById("userAddress"));
         myChart.setOption({
           title: {
             text: "用户分布情况",

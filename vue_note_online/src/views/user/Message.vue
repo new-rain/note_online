@@ -254,7 +254,7 @@ export default {
   },
   methods: {
     getMessages(no, type, page) {
-      const that = this;
+      let that = this;
       this.$axios.get("/getMessages", {
         params: {
           no: no,
@@ -274,7 +274,7 @@ export default {
       if (typeNum === 2 || typeNum === 3) {
         this.readAll();
       }
-      const no = this.no;
+      let no = this.no;
       this.getMessages(no, typeNum, 1)
     },
     CurrentChange(page) {
@@ -283,8 +283,8 @@ export default {
     },
     readAll() {
       var that = this;
-      const no = this.no;
-      const type = this.type;
+      let no = this.no;
+      let type = this.type;
       var params = new URLSearchParams();
       params.append("no", no);
       params.append("type", type);
@@ -299,8 +299,8 @@ export default {
     },
     deleteAll() {
       var that = this;
-      const no = this.no;
-      const type = this.type;
+      let no = this.no;
+      let type = this.type;
       var params = new URLSearchParams();
       params.append("no", no);
       params.append("type", type);
@@ -320,7 +320,7 @@ export default {
     },
     goCheck(msg) {
       this.msg = msg;
-      const that = this;
+      let that = this;
       this.$axios.put("/checkMsg?no=" + msg.mno).then(res => {
         if (res.data) {
           this.check = true;
@@ -332,7 +332,7 @@ export default {
       })
     },
     deleteMsg(no) {
-      const that = this;
+      let that = this;
       this.$axios.delete("/deleteMsg?no=" + no).then(res => {
         if (res.data) {
           this.$message({
@@ -360,7 +360,6 @@ export default {
       window.location.href = "/seeNote/" + no;
     },
     checkHaveNew(no) {
-      const that = this;
       this.$axios.get("/checkHaveNew?no=" + no).then(res => {
         that.havaNew = res.data;
       }).catch(error => {
@@ -377,7 +376,7 @@ export default {
   },
   created() {
     noteOnline.checkUser();
-    const uno = this.$store.getters.getUserNo;
+    let uno = this.$store.getters.getUserNo;
     this.no = uno;
     this.getMessages(uno, 0, 1);
     this.checkHaveNew(uno);

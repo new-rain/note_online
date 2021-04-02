@@ -74,12 +74,7 @@ public class NoteBookServiceImpl implements NoteBookService {
      */
     @Override
     public Boolean updateNoteBook(NoteBook noteBook) {
-        Integer res = noteBookDao.updateNoteBook(noteBook);
-        if (res > 0) {
-            return Boolean.TRUE;
-        } else {
-            return Boolean.FALSE;
-        }
+        return noteBookDao.updateNoteBook(noteBook);
     }
 
     /**
@@ -228,8 +223,6 @@ public class NoteBookServiceImpl implements NoteBookService {
         res.addAll(noteBooks1);
         List<NoteBook> noteBooks2 = noteBookDao.fuzzySearchNoteBook2(keyWord);
         res.addAll(noteBooks2);
-        List<NoteBook> noteBooks3 = noteBookDao.fuzzySearchNoteBook3(keyWord);
-        res.addAll(noteBooks3);
         return res;
     }
 

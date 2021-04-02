@@ -99,15 +99,14 @@ export default {
       this.selectEachOther(this.user.no);
     },
     selectEachOther(no) {
-      const that = this;
       this.$axios.get("/selectEachOther", {
         params: {
           no: no
         }
       }).then(res => {
-        that.each = res.data;
-        that.friends = that.friends.concat(that.each);
-        that.selectCareMe(this.user.no);
+        this.each = res.data;
+        this.friends = this.friends.concat(this.each);
+        this.selectCareMe(this.user.no);
       }).catch(error => {
         console.log(error);
         this.$message({
@@ -119,14 +118,13 @@ export default {
       })
     },
     selectCareMe(no) {
-      const that = this;
       this.$axios.get("/selectCareMe", {
         params: {
           no: no
         }
       }).then(res => {
-        that.careMe = res.data;
-        that.selectMyCare(this.user.no);
+        this.careMe = res.data;
+        this.selectMyCare(this.user.no);
       }).catch(error => {
         console.log(error);
         this.$message({
@@ -138,15 +136,14 @@ export default {
       })
     },
     selectMyCare(no) {
-      const that = this;
       this.$axios.get("/selectMyCare", {
         params: {
           no: no
         }
       }).then(res => {
-        that.Mycare = res.data;
-        that.friends = that.friends.concat(that.Mycare);
-        that.chooseWhat(1);
+        this.Mycare = res.data;
+        this.friends = this.friends.concat(this.Mycare);
+        this.chooseWhat(1);
       }).catch(error => {
         console.log(error);
         this.$message({
@@ -188,16 +185,15 @@ export default {
       }
     },
     goEach(friend) {
-      const that = this;
-      const params = new URLSearchParams();
+      let params = new URLSearchParams();
       params.append("aNo", friend.no);
-      params.append("bNo", that.user.no);
+      params.append("bNo", this.user.no);
       this.$axios.put("/goEach", params).then(res => {
         if (res.data) {
-          const index = that.careMe.indexOf(friend);
-          that.careMe.splice(index, 1);
-          that.each.push(friend);
-          that.friends.push(friend);
+          let index = this.careMe.indexOf(friend);
+          this.careMe.splice(index, 1);
+          this.each.push(friend);
+          this.friends.push(friend);
         }
       }).catch(error => {
         console.log(error);
@@ -209,18 +205,17 @@ export default {
       })
     },
     cancelEach(friend) {
-      const that = this;
-      const params = new URLSearchParams();
+      let params = new URLSearchParams();
       params.append("aNo", friend.no);
-      params.append("bNo", that.user.no);
+      params.append("bNo", this.user.no);
       this.$axios.post("/cancelEach", params).then(res => {
         if (res.data) {
-          const index = that.each.indexOf(friend);
+          let index = this.each.indexOf(friend);
           if (index >= 0) {
-            that.each.splice(index, 1);
-            const i = that.friends.indexOf(friend);
-            that.friends.splice(i, 1);
-            that.careMe.push(friend);
+            this.each.splice(index, 1);
+            let i = this.friends.indexOf(friend);
+            this.friends.splice(i, 1);
+            this.careMe.push(friend);
           }
         }else{
           this.$message({
@@ -239,18 +234,17 @@ export default {
       })
     },
     delRelationship(friend) {
-      const that = this;
       this.$axios.delete("/delRelationship", {
         params: {
-          aNo: that.user.no,
+          aNo: this.user.no,
           bNo: friend.no
         }
       }).then(res => {
         if (res.data) {
-          const index = that.Mycare.indexOf(friend);
-          that.Mycare.splice(index, 1);
-          const index1 = that.friends.indexOf(friend);
-          that.friends.splice(index1, 1);
+          let index = this.Mycare.indexOf(friend);
+          this.Mycare.splice(index, 1);
+          let index1 = this.friends.indexOf(friend);
+          this.friends.splice(index1, 1);
         }
       }).catch(error => {
         console.log(error);

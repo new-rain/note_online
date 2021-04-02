@@ -26,6 +26,7 @@
 
 <script>
 import '@/assets/css/notebook_online.css';
+import noteOnline from "@/assets/js/noteOnline";
 
 export default {
   name: 'Menu',
@@ -44,7 +45,8 @@ export default {
     },
   },
   created() {
-    this.getUser()
+    this.getUser();
+    noteOnline.checkState(this.$store.getters.getUserNo);
   },
 }
 </script>

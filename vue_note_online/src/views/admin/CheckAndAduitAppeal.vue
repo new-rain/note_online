@@ -84,7 +84,7 @@ export default {
     },
     aduit(type) {
       if (type == 1) {
-        const params = new URLSearchParams();
+        let params = new URLSearchParams();
         params.append("type", this.appeal.adType);
         params.append("uno", this.appeal.auNo);
         params.append("ano", this.appeal.ano);
@@ -102,7 +102,7 @@ export default {
         })
       }
       else {
-        const params = new URLSearchParams();
+        let params = new URLSearchParams();
         params.append("no", this.appeal.ano);
         this.$axios.put("/auditaAppeal", params).then(res => {
           if (!res.data) {

@@ -1,7 +1,6 @@
 package pers.jxy.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 import pers.jxy.dao.MessageDao;
@@ -66,8 +65,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(Integer no, String password) {
         String pwd = NoteBookOnlineUtils.getSHA256Res(password);
-        User user = null;
-        user = userDao.login(no, pwd);
+        User user = userDao.login(no, pwd);
         if (user != null) {
             //隐藏密码
             user.setPassword("****************");
@@ -87,8 +85,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean updatePassword(User user) {
         user.setPassword(NoteBookOnlineUtils.getSHA256Res(user.getPassword()));
-        Integer res = userDao.updatePassword(user);
-        return res > 0;
+        return userDao.updatePassword(user);
     }
 
     /**
@@ -105,7 +102,6 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User getAuthor(Integer no) {
-        System.out.println(userDao.getAuthor(no));
         return userDao.getAuthor(no);
     }
 
@@ -240,7 +236,6 @@ public class UserServiceImpl implements UserService {
     public LinkedHashSet<User> searchUser(String keyword, Integer no) {
         LinkedHashSet<User> users = new LinkedHashSet<>();
         User user = userDao.searchUserByNo(keyword, no);
-        System.out.println(user);
         if (user != null) {
             users.add(user);
         }
@@ -302,6 +297,11 @@ public class UserServiceImpl implements UserService {
             res.add(new AddressUserNum("其他", otherNum, NoteBookOnlineUtils.decToPro(othersPro)));
         }
         return res;
+    }
+
+    @Override
+    public Boolean getUserState(Integer no) {
+        return userDao.getUserState(no);
     }
 }
 

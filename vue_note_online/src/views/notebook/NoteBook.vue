@@ -121,9 +121,8 @@ export default {
       this.getNotebookMsg();
     },
     getNotebookMsg() {
-      const that = this;
       this.$axios.get("/getNotebookMsg?no=" + this.userNo).then(res => {
-        that.res = res.data;
+        this.res = res.data;
       }).catch(error => {
         this.$message({
           showClose: true,
@@ -133,14 +132,13 @@ export default {
       })
     },
     getNoteBooks(type) {
-      const that = this;
       this.$axios.get("/orderQueryNoteBookByTime", {
         params: {
-          no: that.userNo,
+          no: this.userNo,
           type: type
         }
       }).then(res => {
-        that.notebooks = res.data;
+        this.notebooks = res.data;
       }).catch(error => {
         this.$message({
           showClose: true,

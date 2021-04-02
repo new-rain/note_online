@@ -117,14 +117,13 @@ export default {
       window.location.href = "/friend/friendHome/" + no;
     },
     attention(user) {
-      const that = this;
-      const params = new URLSearchParams();
-      params.append("aNo", that.no);
+      let params = new URLSearchParams();
+      params.append("aNo", this.no);
       params.append("bNo", user.no);
       this.$axios.post("/attention", params).then(res => {
         if (res.data) {
-          const index = that.users.indexOf(user);
-          that.users[index].friendRe = 2;
+          let index = this.users.indexOf(user);
+          this.users[index].friendRe = 2;
           this.$message({
             showClose: true,
             message: '关注成功',
@@ -141,16 +140,15 @@ export default {
       })
     },
     cancelAttention(user) {
-      const that = this;
       this.$axios.delete("/delRelationship", {
         params: {
-          aNo: that.no,
+          aNo: this.no,
           bNo: user.no
         }
       }).then(res => {
         if (res.data) {
-          const index = that.users.indexOf(user);
-          that.users[index].friendRe = 0;
+          let index = this.users.indexOf(user);
+          this.users[index].friendRe = 0;
         }
       }).catch(error => {
         console.log(error);
@@ -162,14 +160,13 @@ export default {
       })
     },
     cancelEach(user) {
-      const that = this;
-      const params = new URLSearchParams();
+      let params = new URLSearchParams();
       params.append("aNo", user.no);
-      params.append("bNo", that.no);
+      params.append("bNo", this.no);
       this.$axios.post("/cancelEach", params).then(res => {
         if (res.data) {
-          const index = that.users.indexOf(user);
-          that.users[index].friendRe = 0;
+          let index = this.users.indexOf(user);
+          this.users[index].friendRe = 0;
         } else {
           this.$message({
             showClose: true,
