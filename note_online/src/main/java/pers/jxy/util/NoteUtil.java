@@ -11,6 +11,9 @@ import org.commonmark.renderer.html.AttributeProvider;
 import org.commonmark.renderer.html.AttributeProviderContext;
 import org.commonmark.renderer.html.AttributeProviderFactory;
 import org.commonmark.renderer.html.HtmlRenderer;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 import pers.jxy.entity.NoteBook;
 
 import java.io.*;
@@ -24,7 +27,13 @@ import java.util.*;
  * @author:靳新宇
  * @date : 12-01 10:39
  */
+@Component
+@PropertySource("classpath:application.yml")
 public class NoteUtil {
+
+    @Value("${note.notePath}")
+    private String notePath;
+
     private NoteUtil() {
 
     }
@@ -36,11 +45,11 @@ public class NoteUtil {
      * @param arthicle
      * @return
      */
-    public static String saveArthicle(String name, String arthicle) {
-        String path = "D:/artices/" + name + ".md";
+    public String saveArthicle(String name, String arthicle) {
+        String path = notePath + "/" + name + ".md ";
         Boolean res = writeNote(arthicle, path);
         if (res) {
-            return path;
+            return "/" + name + ".md ";
         } else {
             return null;
         }
@@ -49,8 +58,8 @@ public class NoteUtil {
     /**
      * 向md文件中写入内容
      */
-    public static Boolean writeNote(String arthicle, String path) {
-        File file = new File(path);
+    public Boolean writeNote(String arthicle, String path) {
+        File file = new File(notePath + path);
         FileWriter fileWriter = null;
         try {
             fileWriter = new FileWriter(file, true);
@@ -76,14 +85,12 @@ public class NoteUtil {
     /**
      * 根据路径读取笔记，并返回数据
      */
-    public static String getArthicle(String path) {
+    public String getArthicle(String path) {
         String arthicle = "";
-        File file = new File(path);
-//        FileReader fileReader = null;
-        BufferedReader br=null;
+        File file = new File(notePath + path);
+        BufferedReader br = null;
         try {
             br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
-//            fileReader = new FileReader(file, Charset.forName("UTF-8"));
             char[] ch = new char[1024];
             int data;
             while ((data = br.read(ch)) != -1) {
@@ -107,14 +114,14 @@ public class NoteUtil {
     /**
      * 将md格式转换为HTML格式
      */
-    public static String markdownToHtml(String markdown) {
+    public String markdownToHtml(String markdown) {
         Parser parser = Parser.builder().build();
         Node document = parser.parse(markdown);
         HtmlRenderer renderer = HtmlRenderer.builder().build();
         return renderer.render(document);
     }
 
-    public static String markdownToHtmlExtensions(String markdown) {
+    public String markdownToHtmlExtensions(String markdown) {
         Set<Extension> headingAnchorExtension = Collections.singleton(HeadingAnchorExtension.create());
         List<Extension> tableExtensions = Arrays.asList(TablesExtension.create());
         Parser parser = Parser.builder().extensions(tableExtensions).build();
@@ -151,7 +158,7 @@ public class NoteUtil {
      * @param timeOrder:正序/ 反序
      * @return
      */
-    public static List<Map<String, List>> getGroupByTime(List<List<NoteBook>> lists, Boolean timeOrder) {
+    public List<Map<String, List>> getGroupByTime(List<List<NoteBook>> lists, Boolean timeOrder) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Map<String, List> map = new HashMap();
         for (int i = 0; i < lists.size(); i++) {
@@ -182,14 +189,11 @@ public class NoteUtil {
         return results;
     }
 
-//    public static List<Map<String, List>> getGroupByTime(List<List<NoteBook>> lists, Boolean timeOrder) {
-//
-//    }
 
     /**
      * 删除文件
      */
-    public static Boolean deleteMd(String filePath) {
+    public Boolean deleteMd(String filePath) {
         Path path = Paths.get(filePath);
         Boolean result = false;
         try {
@@ -205,8 +209,9 @@ public class NoteUtil {
     /**
      * 清空md文件
      */
-    public static Boolean clearFile(String fileName) {
-        File file = new File(fileName);
+    public Boolean clearFile(String fileName) {
+        File file = new File(notePath + fileName);
+        System.out.println(file);
         try {
             if (!file.exists()) {
                 file.createNewFile();

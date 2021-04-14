@@ -1,7 +1,10 @@
 package pers.jxy.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import pers.jxy.entity.AddressUserNum;
 import pers.jxy.entity.User;
 import pers.jxy.service.NoteBookService;
@@ -10,7 +13,6 @@ import pers.jxy.util.NoteBookOnlineUtils;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -26,8 +28,11 @@ public class UserController {
     @Autowired
     NoteBookService noteBookService;
 
+    @Autowired
+    RedisTemplate redisTemplate;
+
     /**
-     * 获取生成验证码，将其保存在session中，并向邮箱发送邮件
+     * 获取生成验证码，将其保存在redis中，并向邮箱发送邮件
      */
     @GetMapping("/getcode")
     public Boolean getcode(String email, HttpSession session) {
@@ -35,12 +40,17 @@ public class UserController {
     }
 
     /**
-     * 获取保存在seesion中的验证码
+     * 与redis中的验证码进行校验
      */
     @PostMapping("/checkcode")
-    public Boolean checkCode(String email, String code, HttpSession session) {
-        String scode = (String) session.getAttribute((email + "-code"));
-        return code.equals(scode);
+    public Boolean checkCode(String email, String code) {
+        ValueOperations operations = redisTemplate.opsForValue();
+        String code1 = String.valueOf(operations.get(email));
+        Boolean res = code.equals(code1);
+        if (res) {
+            redisTemplate.delete(email);
+        }
+        return res;
     }
 
     /**
@@ -63,8 +73,15 @@ public class UserController {
      */
     @PostMapping("/login")
     public User login(Integer no, String password) {
-        User user = userService.login(no, password);
-        return user;
+        return userService.login(no, password);
+    }
+
+    /**
+     * 获取头像
+     */
+    @GetMapping("/getUserHead")
+    public byte[] getUserHead(String headUrl) {
+        return NoteBookOnlineUtils.getImg("D:/note/user/" + headUrl);
     }
 
     /**
@@ -92,6 +109,11 @@ public class UserController {
     @PutMapping("/updateHeadUrl")
     public Boolean updateHeadUrl(String headUrl, Integer no) {
         return userService.updateHeadUrl(headUrl, no);
+    }
+
+    @PostMapping("/uploadHead")
+    public String uploadHead(MultipartFile file, Integer no) {
+        return userService.uploadHead(file, no);
     }
 
     /**
@@ -229,8 +251,8 @@ public class UserController {
      * 查找用户
      */
     @GetMapping("/searchUser")
-    public LinkedHashSet<User> searchUser(String keyWord, Integer no) {
-        return userService.searchUser(keyWord, no);
+    public Object[]  searchUser(String keyWord, Integer no, Integer page) {
+        return userService.searchUser(keyWord, no, page);
     }
 
     /**
@@ -245,7 +267,7 @@ public class UserController {
      * 查询各项前8
      */
     @GetMapping("/eachTop")
-    List<List> eachTop8() {
+    List<List<User>> eachTop8() {
         return userService.eachTop8();
     }
 

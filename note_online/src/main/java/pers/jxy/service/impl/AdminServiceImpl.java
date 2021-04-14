@@ -1,5 +1,7 @@
 package pers.jxy.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pers.jxy.dao.AdminDao;
@@ -90,6 +92,18 @@ public class AdminServiceImpl implements AdminService {
             }
         }
         return adminDao.selectRnums();
+    }
+
+    @Override
+    public PageInfo<Admin> selectAdmins(Integer type, Integer page) {
+        PageHelper.startPage(page, 8);
+        List<Admin> admins = adminDao.selectAdmins(type);
+        return new PageInfo<>(admins);
+    }
+
+    @Override
+    public Boolean addAch(Integer id, Integer ach) {
+        return adminDao.addAch(id, ach);
     }
 
 

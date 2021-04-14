@@ -1,0 +1,157 @@
+/*---------------------------------margin-bottom------------------------------------------*/
+.mgb_10 {
+    margin-bottom: 10px;
+}
+
+.mgb_20 {
+    margin-bottom: 20px;
+}
+
+.mgb_30 {
+    margin-bottom: 30px;
+}
+
+.mgb_50 {
+    margin-bottom: 50px;
+}
+
+/*---------------------------------margin-left-------------------------------------------*/
+.mgl_5bf {
+    margin-left: 5px;
+}
+
+.mgl_10 {
+    margin-left: 10px;
+}
+
+.mgl_10bf {
+    margin-left: 10%;
+}
+
+.mgl_20 {
+    margin-left: 20px;
+}
+
+.mgl_30 {
+    margin-left: 30px;
+}
+
+.mgl_50 {
+    margin-left: 50px;
+}
+
+.mgl_100 {
+    margin-left: 100px;
+}
+
+.mgl_b_10 {
+    margin-left: 10%;
+}
+
+/*---------------------------------margin-right-------------------------------------------*/
+.mgr_5 {
+    margin-right: 5%;
+}
+
+.mgr_20 {
+    margin-right: 20px;
+}
+
+.mgr_30 {
+    margin-right: 30px;
+}
+
+.mgr_50 {
+    margin-right: 50px;
+}
+
+.mgr_100 {
+    margin-right: 100px;
+}
+
+/*---------------------------------margin-top-------------------------------------------*/
+.mgt_1 {
+    margin-top: 1px;
+}
+
+.mgt_5 {
+    margin-top: 5px;
+}
+
+.mgt_10 {
+    margin-top: 10px;
+}
+
+.mgt_20 {
+    margin-top: 20px;
+}
+
+.mgt_30 {
+    margin-top: 30px;
+}
+
+.mgt_50 {
+    margin-top: 50px;
+}
+
+.mgt_80 {
+    margin-top: 80px;
+}
+
+.mgt_100 {
+    margin-top: 100px;
+}
+
+/*---------------------------------padding-------------------------------------------*/
+.pd_10 {
+    padding: 10px;
+}
+
+.pd_20 {
+    padding: 20px;
+}
+
+.pd_30 {
+    padding: 50px;
+}
+
+.pd_lr_10{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.pd_r_10{
+    padding-right: 10px;
+}
+
+.pd_l_20{
+    padding-left: 20px;
+}
+
+.pd_r_20{
+    padding-right: 20px;
+}
+
+.pd_lr_20 {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.pd_lr_30 {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.pdt_20 {
+    padding-top: 20px;
+}
+
+.pd_tb_10 {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.pd_tb_20 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}

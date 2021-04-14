@@ -11,7 +11,10 @@ import pers.jxy.util.NoteBookOnlineUtils;
 import pers.jxy.util.NoteUtil;
 import pers.jxy.util.ShieldUtil;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author:靳新宇
@@ -25,6 +28,9 @@ public class NoteServiceImpl implements NoteService {
     @Autowired
     MessageDao messageDao;
 
+    @Autowired
+    NoteUtil noteUtil;
+
     @Override
     public Integer saveNote(String nname, String article, Integer uNo, Integer nbNo) {
         article = ShieldUtil.detection(article);
@@ -35,7 +41,7 @@ public class NoteServiceImpl implements NoteService {
         note.setCreateTime(NoteBookOnlineUtils.getToday());
         Integer res = noteDao.saveNote(note);
         Integer nNo = note.getNNo();
-        String path = NoteUtil.saveArthicle(nNo +"---"+ nname, article);
+        String path = noteUtil.saveArthicle(nNo + "---" + nname, article);
         Integer result = noteDao.savePath(path, nNo);
         if (res > 0 && result > 0) {
             return nNo;
@@ -54,7 +60,7 @@ public class NoteServiceImpl implements NoteService {
             noteDao.insertDate(today);
         }
         noteDao.visitNumPlus(today);
-        arthicle = NoteUtil.markdownToHtmlExtensions(NoteUtil.getArthicle(note.getNBodyUrl()));
+        arthicle = noteUtil.markdownToHtmlExtensions(noteUtil.getArthicle(note.getNBodyUrl()));
         note.setArthicle(arthicle);
         return note;
     }
@@ -62,7 +68,7 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public Note getNote(Integer no, Integer uNo) {
         Note note = noteDao.queryNote(no, uNo);
-        String arthicle = NoteUtil.getArthicle(note.getNBodyUrl());
+        String arthicle = noteUtil.getArthicle(note.getNBodyUrl());
         note.setArthicle(arthicle);
         return note;
     }
@@ -75,7 +81,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public Boolean deleteNote(Integer no) {
-        Boolean bol = NoteUtil.deleteMd(noteDao.getFilePath(no));
+        Boolean bol = noteUtil.deleteMd(noteDao.getFilePath(no));
         if (bol) {
             Integer res = noteDao.deleteNote(no);
             return res > 0;
@@ -185,8 +191,8 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public Boolean changeNote(Integer nno, String nname, String arthicle, String url) {
         arthicle = ShieldUtil.detection(arthicle);
-        Boolean res1 = NoteUtil.clearFile(url);
-        Boolean res2 = NoteUtil.writeNote(arthicle, url);
+        Boolean res1 = noteUtil.clearFile(url);
+        Boolean res2 = noteUtil.writeNote(arthicle, url);
         Boolean res3 = noteDao.changeNote(nname, nno);
         return res1 && res2 && res3;
     }

@@ -1,8 +1,11 @@
 package pers.jxy.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import pers.jxy.dao.MessageDao;
 import pers.jxy.dao.UserDao;
 import pers.jxy.entity.AddressUserNum;
@@ -12,7 +15,9 @@ import pers.jxy.service.UserService;
 import pers.jxy.util.NoteBookOnlineUtils;
 
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author:靳新宇
@@ -30,16 +35,22 @@ public class UserServiceImpl implements UserService {
     @Autowired
     MessageDao messageDao;
 
+
+    @Autowired
+    RedisTemplate redisTemplate;
+
     /**
      * 发送验证码，并将验证码存入session,sessionId为email+"-code"
      */
     @Override
     public Boolean sendCode(String email, HttpSession session) {
+        ValueOperations operations = redisTemplate.opsForValue();
         String code = NoteBookOnlineUtils.getRandomStr(4);
         String title = "欢迎注册";
         String content = "欢迎注册在线笔记，您的验证码为：" + code;
         NoteBookOnlineUtils.sendMail(title, content, email, javaMailSender);
-        session.setAttribute((email + "-code"), code);
+        //将验证码存储到redis中，设置十分钟有效
+        operations.set(email, code, 10, TimeUnit.MINUTES);
         return Boolean.TRUE;
     }
 
@@ -93,8 +104,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Integer updateUser(User user) {
-        Integer res = userDao.updateUser(user);
-        return res;
+        return userDao.updateUser(user);
     }
 
     /**
@@ -107,7 +117,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> selectEachOther(Integer no) {
-        ArrayList<User> users = new ArrayList<>();
+        List<User> users = new ArrayList<>();
         HashSet<Integer> nos = new HashSet<>();
         nos.addAll(userDao.selectEachOther1(no));
         nos.addAll(userDao.selectEachOther2(no));
@@ -151,7 +161,7 @@ public class UserServiceImpl implements UserService {
         //先查询对方是否关注自己
         Integer re = userDao.selectUserRelationship(bNo, aNo);
         //如果对方关注了自己，则将关系改为互相关注，将其改为1
-        Boolean res = false;
+        Boolean res;
         if (re > 0) {
             res = userDao.goEach(bNo, aNo);
         } else {
@@ -233,16 +243,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public LinkedHashSet<User> searchUser(String keyword, Integer no) {
-        LinkedHashSet<User> users = new LinkedHashSet<>();
+    public Object[] searchUser(String keyword, Integer no, Integer page) {
+        Object[] res = new Object[2];
+        LinkedHashSet<User> u = new LinkedHashSet<>();
         User user = userDao.searchUserByNo(keyword, no);
         if (user != null) {
-            users.add(user);
+            u.add(user);
         }
-        users.addAll(userDao.searchUserByKeyWord(keyword, no));
-        users.addAll(userDao.searchUserByKeyWord1(keyword, no));
-        users.addAll(userDao.searchUserByKeyWord2(keyword, no));
-        return users;
+        u.addAll(userDao.searchUserByKeyWord(keyword, no));
+        u.addAll(userDao.searchUserByKeyWord1(keyword, no));
+        u.addAll(userDao.searchUserByKeyWord2(keyword, no));
+        List<User> AllRes = new ArrayList(u);
+        List<User> users = new ArrayList();
+        int length = AllRes.size();
+        int start = (page - 1) * 10;
+        for (int i = start; i < start + 10; i++) {
+            users.add(AllRes.get(i));
+            if (start == length - 1) {
+                break;
+            }
+        }
+        res[0] = users;
+        res[1] = length;
+        return res;
     }
 
     @Override
@@ -264,8 +287,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<List> eachTop8() {
-        ArrayList<List> res = new ArrayList<>(3);
+    public List<List<User>> eachTop8() {
+        List<List<User>> res = new ArrayList<>(3);
         res.add(userDao.readTop8());
         res.add(userDao.goodTop8());
         res.add(userDao.attentionTop8());
@@ -279,17 +302,17 @@ public class UserServiceImpl implements UserService {
         Integer userNum = userDao.selectUserNum();
         TreeSet<AddressUserNum> res = new TreeSet<>();
         Double othersPro = 0.0;
-        Integer otherNum = 0;
+        int otherNum = 0;
         for (String s : address) {
             Integer i = userDao.selectAddressNum(s);
-            Double proportation = Double.valueOf(i) / Double.valueOf(userNum);
-            if (proportation > 0.01) {
-                String pro = NoteBookOnlineUtils.decToPro(proportation);
+            double proportion = Double.valueOf(i) / Double.valueOf(userNum);
+            if (proportion > 0.01) {
+                String pro = NoteBookOnlineUtils.decToPro(proportion);
                 if (i > 0) {
                     res.add(new AddressUserNum(s, i, pro));
                 }
             } else {
-                othersPro += proportation;
+                othersPro += proportion;
                 otherNum += i;
             }
         }
@@ -303,5 +326,19 @@ public class UserServiceImpl implements UserService {
     public Boolean getUserState(Integer no) {
         return userDao.getUserState(no);
     }
+
+    @Override
+    public String uploadHead(MultipartFile file, Integer no) {
+        String nowHeadUrl = userDao.getNowHeadUrl(no);
+        File oldHead = new File("D:/note/user/" + nowHeadUrl);
+        boolean delete = oldHead.delete();
+        System.out.println(delete);
+        String headUrl = NoteBookOnlineUtils.uploadImg(file, no, "D:/note/user");
+        headUrl = NoteBookOnlineUtils.imgZip(headUrl);
+        userDao.updateHeadUrl(headUrl, no);
+        return headUrl;
+    }
+
+
 }
 

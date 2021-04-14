@@ -1,10 +1,10 @@
 package pers.jxy.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import pers.jxy.entity.AddressUserNum;
 import pers.jxy.entity.User;
 
 import javax.servlet.http.HttpSession;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -102,8 +102,10 @@ public interface UserService {
 
     /**
      * 搜索用户
+     *
+     * @return
      */
-    LinkedHashSet<User> searchUser(String keyword, Integer no);
+    Object[] searchUser(String keyword, Integer no, Integer page);
 
     Boolean updateHeadUrl(String headUrl, Integer no);
 
@@ -115,7 +117,7 @@ public interface UserService {
     /**
      * 查询各项前八
      */
-    List<List> eachTop8();
+    List<List<User>> eachTop8();
 
     /**
      * 查询地区人数
@@ -126,4 +128,10 @@ public interface UserService {
      * 查询用户状态
      */
     Boolean getUserState(Integer no);
+
+    /**
+     * 上传头像
+     */
+    String uploadHead(MultipartFile file, Integer no);
+
 }

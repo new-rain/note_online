@@ -276,4 +276,10 @@ public interface UserDao {
      */
     @Select("select state from user where no = #{no}")
     Boolean getUserState(@Param("no") Integer no);
+
+    /**
+     * 查询账号当前头像路径
+     */
+    @Select("select headUrl from user where no = #{no}")
+    String getNowHeadUrl(@Param("no") Integer no);
 }

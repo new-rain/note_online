@@ -21,9 +21,8 @@ public class Admin implements Serializable {
     private String name;
     private String mobile;
     private String email;
+    private Integer irNum;
+    private Integer apNum;
     private Integer achievement;
 
-    public void setName(String name) {
-        this.name = name;
-    }
 }

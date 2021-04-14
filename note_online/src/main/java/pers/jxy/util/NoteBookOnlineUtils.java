@@ -1,8 +1,13 @@
 package pers.jxy.util;
 
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -229,5 +234,55 @@ public class NoteBookOnlineUtils {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime localDateTime = LocalDateTime.now();
         return dateTimeFormatter.format(localDateTime);
+    }
+
+    /**
+     * 上传图片
+     */
+    public static String uploadImg(MultipartFile file, Integer no, String path) {
+        String filename = no + "-" + file.getOriginalFilename();
+        try {
+            File fileload = new File(path);
+            if (!fileload.exists()) {
+                fileload.mkdirs();
+            }
+            file.transferTo(new File(fileload, filename));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            return filename;
+        }
+    }
+
+    /**
+     * 图片压缩
+     */
+    public static String imgZip(String path) {
+        String newPath = "zip-" + path;
+        try {
+            File file = new File("D:\\note\\user\\" + path);
+            File newFile = new File("D:\\note\\user\\" + newPath);
+            Thumbnails.of(file).size(120, 120).toFile(newFile);
+            file.delete();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            return newPath;
+        }
+    }
+
+    /**
+     * 获取图片二进制文件
+     */
+    public static byte[] getImg(String path) {
+        byte[] imageBytes = null;
+        try {
+            FileInputStream fileInputStream = new FileInputStream(new File(path));
+            imageBytes = new byte[fileInputStream.available()];
+            fileInputStream.read(imageBytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return imageBytes;
     }
 }

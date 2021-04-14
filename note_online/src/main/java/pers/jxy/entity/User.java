@@ -39,4 +39,10 @@ public class User implements Serializable {
     private Integer friendRe;
     private Integer hotNum;
     private Integer attentionNum;
+    private byte[] headImg;
+
+//    public void setHeadUrl(String headUrl) {
+//        this.headUrl = headUrl;
+//        this.headImg = NoteBookOnlineUtils.getImg("D:/note/user/" + headUrl);
+//    }
 }
