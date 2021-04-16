@@ -77,7 +77,7 @@ export default {
 
 <style scoped>
 .adminRegister {
-  background-color: rgba(32, 140, 255, 0.15);
+  background: rgba(32, 140, 255, 0.5);
   position: absolute;
   width: 100%;
   height: 100%;
@@ -87,7 +87,7 @@ export default {
   padding: 50px;
   width: 50%;
   height: 450px;
-  background: rgba(32, 140, 255, 0.2);
+  background: rgba(255, 255, 255, 0.6);
   margin: 100px auto;
   border-radius: 20px;
 }
@@ -109,10 +109,7 @@ export default {
   border: none;
   outline: none;
   margin: 15px auto;
-  border: 1px solid #4facfe;
-  border-radius: 10px;
+  border-bottom: 1px solid #4facfe;
   padding-left: 30px;
-  color: black;
-  font-weight: bold;
 }
 </style>

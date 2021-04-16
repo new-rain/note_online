@@ -55,14 +55,18 @@ public class NoteServiceImpl implements NoteService {
         String arthicle = null;
         noteDao.read(no);
         Note note = noteDao.queryNote(no, uNo);
-        String today = NoteBookOnlineUtils.getToday();
-        if (noteDao.selectIsNull(today) == 0) {
-            noteDao.insertDate(today);
+        if (note == null) {
+            return null;
+        } else {
+            String today = NoteBookOnlineUtils.getToday();
+            if (noteDao.selectIsNull(today) == 0) {
+                noteDao.insertDate(today);
+            }
+            noteDao.visitNumPlus(today);
+            arthicle = noteUtil.markdownToHtmlExtensions(noteUtil.getArthicle(note.getNBodyUrl()));
+            note.setArthicle(arthicle);
+            return note;
         }
-        noteDao.visitNumPlus(today);
-        arthicle = noteUtil.markdownToHtmlExtensions(noteUtil.getArthicle(note.getNBodyUrl()));
-        note.setArthicle(arthicle);
-        return note;
     }
 
     @Override
@@ -226,5 +230,6 @@ public class NoteServiceImpl implements NoteService {
         o[1] = sevenDayNums;
         return o;
     }
+
 
 }

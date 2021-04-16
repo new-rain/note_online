@@ -31,8 +31,11 @@ import java.util.*;
 @PropertySource("classpath:application.yml")
 public class NoteUtil {
 
-    @Value("${note.notePath}")
-    private String notePath;
+    @Value("${note.path}")
+    private String note_path;
+
+    @Value("${note.note}")
+    private String note;
 
     private NoteUtil() {
 
@@ -46,7 +49,7 @@ public class NoteUtil {
      * @return
      */
     public String saveArthicle(String name, String arthicle) {
-        String path = notePath + "/" + name + ".md ";
+        String path = note_path + note + "/" + name + ".md ";
         Boolean res = writeNote(arthicle, path);
         if (res) {
             return "/" + name + ".md ";
@@ -59,7 +62,7 @@ public class NoteUtil {
      * 向md文件中写入内容
      */
     public Boolean writeNote(String arthicle, String path) {
-        File file = new File(notePath + path);
+        File file = new File(note_path + note + path);
         FileWriter fileWriter = null;
         try {
             fileWriter = new FileWriter(file, true);
@@ -87,7 +90,7 @@ public class NoteUtil {
      */
     public String getArthicle(String path) {
         String arthicle = "";
-        File file = new File(notePath + path);
+        File file = new File(note_path + note + path);
         BufferedReader br = null;
         try {
             br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
@@ -210,7 +213,7 @@ public class NoteUtil {
      * 清空md文件
      */
     public Boolean clearFile(String fileName) {
-        File file = new File(notePath + fileName);
+        File file = new File(note_path + note + fileName);
         System.out.println(file);
         try {
             if (!file.exists()) {

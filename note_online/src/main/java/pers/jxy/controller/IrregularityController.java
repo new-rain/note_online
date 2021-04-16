@@ -1,5 +1,6 @@
 package pers.jxy.controller;
 
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,13 +32,13 @@ public class IrregularityController {
     }
 
     @GetMapping("/selectIrrs")
-    public Object[] selectIrrs(Integer page) {
-        return irregularityService.selectIrrs(page, 0);
+    public PageInfo<Irregularity> selectIrrs(Integer page) {
+        return irregularityService.selectIrrs(page);
     }
 
     @GetMapping("/selectIrrLogs")
-    public Object[] selectIrrLogs(Integer page) {
-        return irregularityService.selectIrrs(page, 1);
+    public PageInfo selectIrrLogs(Integer page) {
+        return irregularityService.selctAuditLog(page);
     }
 
     /**
@@ -52,7 +53,23 @@ public class IrregularityController {
      * 对举报进行处理
      */
     @PostMapping("/aduitIrr")
-    public Boolean aduitIrr(Integer inNo, Integer iType, Integer iNo, Integer res, Integer irNo, Integer isNo, String[] msg, Boolean onekey) {
-        return irregularityService.aduitIrr(inNo, iType, iNo, res, irNo, isNo, msg, onekey);
+    public Boolean aduitIrr(Integer inNo, Integer iType, Integer iNo, Integer res, Integer irNo, Integer isNo, String[] msg, Boolean onekey, Integer id) {
+        return irregularityService.aduitIrr(inNo, iType, iNo, res, irNo, isNo, msg, onekey, id);
+    }
+
+    /**
+     * 查询管理员处理日志
+     */
+    @GetMapping("/getIrrLog")
+    public PageInfo<Irregularity> getIrrLog(Integer id, Integer page) {
+        return irregularityService.getIrrLog(id, page);
+    }
+
+    /**
+     * 查询账号封禁原因
+     */
+    @GetMapping("/getBanReason")
+    public Irregularity getBanReason(Integer no) {
+        return irregularityService.getBanReason(no);
     }
 }

@@ -30,8 +30,8 @@
                 </el-table-column>
               </el-table>
             </div>
-            <el-pagination v-if="pageInfo.size>10" background layout="prev, pager, next, jumper"
-                           :total="pageInfo.size" @current-change="updatePage">
+            <el-pagination v-if="pageInfo.total>10" background layout="prev, pager, next, jumper"
+                           :total="pageInfo.total" @current-change="updatePage">
             </el-pagination>
           </el-col>
           <el-col :span="2"></el-col>

@@ -1,5 +1,6 @@
 <template>
   <div class="aduitSuccess ta_c">
+    <AdminHead></AdminHead>
     <el-row>
       <el-col :span="4">
         <AdminMenu></AdminMenu>
@@ -25,10 +26,11 @@
 
 <script>
 import AdminMenu from "@/components/AdminMenu";
+import AdminHead from "@/components/AdminHead";
 
 export default {
   name: "AduitSuccess",
-  components: {AdminMenu},
+  components: {AdminHead, AdminMenu},
   data() {
     return {
       noteName: '',

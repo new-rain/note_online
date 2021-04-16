@@ -6,7 +6,7 @@
         text-color="#fff"
         active-text-color="#ffd04b">
       <el-menu-item class="menu_item" index="0">
-        <img :src="logo" alt="logo"/><br/>
+        <img :src="adminHead" alt="logo"/><br/>
         <p>{{ admin.name }}</p>
       </el-menu-item>
       <el-submenu index="1">
@@ -26,13 +26,19 @@
         </template>
         <el-menu-item-group>
           <el-menu-item index="2-1" @click="jump(3)">违规处理</el-menu-item>
-          <el-menu-item index="2-3" @click="jump(4)">处理记录</el-menu-item>
+          <el-menu-item index="2-2" @click="jump(4)">处理记录</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-menu-item index="3" @click="jump(5)" v-if="admin.id!==1">
-        <i class="el-icon-bell"></i>
-        <span slot="title">申诉处理</span>
-      </el-menu-item>
+      <el-submenu index="3" v-if="admin.id!==1">
+        <template slot="title">
+          <i class="el-icon-bell"></i>
+          <span slot="title">申诉处理</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="3-1" @click="jump(5)">申诉处理</el-menu-item>
+          <el-menu-item index="3-2" @click="jump(14)">处理记录</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
       <el-menu-item index="4" @click="jump(6)">
         <i class="el-icon-document"></i>
         <span slot="title">信息发布</span>
@@ -81,7 +87,8 @@ export default {
   data() {
     return {
       logo: logo,
-      admin: ''
+      admin: '',
+      adminHead:''
     }
   },
   methods: {
@@ -96,6 +103,8 @@ export default {
         window.location.href = "/admin/auditLog";
       } else if (no === 5) {
         window.location.href = "/admin/appealAudit";
+      } else if (no === 14) {
+        window.location.href = "/admin/appealAuditLog";
       } else if (no === 6) {
         window.location.href = "/admin/releaseMessage";
       } else if (no === 7) {
@@ -118,6 +127,7 @@ export default {
   },
   created() {
     let admin = this.$store.getters.getAdmin;
+    this.adminHead=this.$store.getters.getAdminHead;
     this.admin = admin;
     if (admin == null || admin === "") {
       alert("请先登录管理员账号")

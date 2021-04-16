@@ -1,6 +1,8 @@
 package pers.jxy.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -24,6 +26,7 @@ import java.util.concurrent.TimeUnit;
  * @date : 11-05 19:34
  */
 @Service
+@PropertySource("classpath:application.yml")
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -35,9 +38,14 @@ public class UserServiceImpl implements UserService {
     @Autowired
     MessageDao messageDao;
 
-
     @Autowired
     RedisTemplate redisTemplate;
+
+    @Value("${note.path}")
+    private String note_path;
+
+    @Value("${note.user}")
+    private String userPath;
 
     /**
      * 发送验证码，并将验证码存入session,sessionId为email+"-code"
@@ -85,8 +93,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean banUser(Integer no) {
-        return userDao.banUser(no);
+    public Boolean banUser(Integer no, Long times) {
+        ValueOperations operations = redisTemplate.opsForValue();
+        operations.set("black-menu-" + no, no, times, TimeUnit.HOURS);
+        return true;
     }
 
 
@@ -330,15 +340,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public String uploadHead(MultipartFile file, Integer no) {
         String nowHeadUrl = userDao.getNowHeadUrl(no);
-        File oldHead = new File("D:/note/user/" + nowHeadUrl);
-        boolean delete = oldHead.delete();
-        System.out.println(delete);
-        String headUrl = NoteBookOnlineUtils.uploadImg(file, no, "D:/note/user");
-        headUrl = NoteBookOnlineUtils.imgZip(headUrl);
+        File oldHead = new File(note_path + userPath + nowHeadUrl);
+        oldHead.delete();
+        String headUrl = NoteBookOnlineUtils.uploadImg(file, no, note_path + userPath);
+        headUrl = NoteBookOnlineUtils.imgZip(headUrl, "user", note_path);
         userDao.updateHeadUrl(headUrl, no);
         return headUrl;
     }
 
-
+    @Override
+    public Long checkState(Integer no) {
+        return redisTemplate.opsForValue().getOperations().getExpire("black-menu-" + no);
+    }
 }
 

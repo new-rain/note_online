@@ -28,7 +28,7 @@ public interface UserService {
     /**
      * 封禁账号
      */
-    Boolean banUser(Integer no);
+    Boolean banUser(Integer no, Long times);
 
     /**
      * 修改密码
@@ -134,4 +134,5 @@ public interface UserService {
      */
     String uploadHead(MultipartFile file, Integer no);
 
+    Long checkState(Integer no);
 }

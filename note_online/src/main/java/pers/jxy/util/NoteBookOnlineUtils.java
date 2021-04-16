@@ -23,6 +23,8 @@ import java.util.regex.Pattern;
  * @date : 11-07 19:28
  */
 public class NoteBookOnlineUtils {
+
+
     private NoteBookOnlineUtils() {
     }
 
@@ -257,14 +259,15 @@ public class NoteBookOnlineUtils {
     /**
      * 图片压缩
      */
-    public static String imgZip(String path) {
-        String newPath = "zip-" + path;
+    public static String imgZip(String path, String iden, String notePath) {
+        UUID uuid = UUID.randomUUID();
+        String newPath = "zip-" + uuid.toString() + ".jpg";
         try {
-            File file = new File("D:\\note\\user\\" + path);
-            File newFile = new File("D:\\note\\user\\" + newPath);
-            Thumbnails.of(file).size(120, 120).toFile(newFile);
-            file.delete();
-        } catch (IOException e) {
+            File oldFile = new File(notePath + iden + "\\" + path);
+            File newFile = new File(notePath + iden + "\\" + newPath);
+            Thumbnails.of(oldFile).size(120, 120).toFile(newFile);
+            oldFile.delete();
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             return newPath;

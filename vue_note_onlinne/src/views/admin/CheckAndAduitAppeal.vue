@@ -34,7 +34,7 @@
         <div class="pd_20 mgt_50 ta_c">
           <el-button class="wd_80 mgt_10" type="success" @click="aduit(1)">取消惩罚</el-button>
           <br>
-          <el-button class="wd_80 mgt_10" type="primary" @click="aduit(2)">维持不表</el-button>
+          <el-button class="wd_80 mgt_10" type="primary" @click="aduit(0)">维持不表</el-button>
         </div>
       </el-col>
     </el-row>
@@ -51,7 +51,8 @@ export default {
   data() {
     return {
       note: {},
-      appeal: {}
+      appeal: {},
+      adminId: ''
     }
   },
   methods: {
@@ -93,23 +94,26 @@ export default {
         params.append("reason", this.appeal.areason);
         params.append("noteName", this.note.nname);
         params.append("noteNo", this.appeal.anNo);
+        params.append("id", this.adminId);
+        params.append("aType", type);
         this.$axios.put("/appealSuccess", params).then(res => {
           if (!res.data) {
             this.$message.error("处理失败，请重试")
-          }else{
+          } else {
             window.location.href = "/admin/appealAudit"
           }
         }).catch(error => {
           this.$message.error("系统错误")
         })
-      }
-      else {
+      } else {
         let params = new URLSearchParams();
         params.append("no", this.appeal.ano);
+        params.append("id", this.adminId);
+        params.append("aType", type);
         this.$axios.put("/auditaAppeal", params).then(res => {
           if (!res.data) {
             this.$message.error("处理失败，请重试")
-          }else{
+          } else {
             window.location.href = "/admin/appealAudit"
           }
         }).catch(error => {
@@ -124,6 +128,7 @@ export default {
   },
   components: {AdminHead, AdminMenu},
   created() {
+    this.adminId = this.$store.getters.getAdmin.id;
     this.getAppeal(this.$route.params.ano);
   }
 }

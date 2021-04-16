@@ -31,6 +31,7 @@ public class Irregularity implements Serializable {
     private String res;
     private String iTime;
     private String iaTime;
+    private String admin;
 
     /**
      * 笔记违规

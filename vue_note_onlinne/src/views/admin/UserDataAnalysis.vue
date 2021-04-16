@@ -247,7 +247,7 @@ export default {
 <style scoped>
 .userDataAnalysis {
   overflow: hidden;
-  background-color: rgba(32, 140, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 #userAddress {

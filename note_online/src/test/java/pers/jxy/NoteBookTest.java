@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import pers.jxy.dao.NoteBookDao;
 import pers.jxy.service.NoteBookService;
 import pers.jxy.util.ShieldUtil;
@@ -32,8 +31,11 @@ public class NoteBookTest {
 
     @Test
     public void test2() {
-        ValueOperations operations = redisTemplate.opsForValue();
-        operations.set("sr","SpringBoot--SpringData Redis");
+//        ValueOperations operations = redisTemplate.opsForValue();
+//        operations.set("sr","SpringBoot--SpringData Redis");
+        Long expire = redisTemplate.opsForValue().getOperations().getExpire("black-menu-1000001");
+        System.out.println(expire);
+
 //        System.out.println(operations.get("sr"));
     }
 

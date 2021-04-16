@@ -18,6 +18,7 @@
                 <el-table-column prop="inName" label="笔记标题" width="180"></el-table-column>
                 <el-table-column prop="irType" label="违规类型" width="180"></el-table-column>
                 <el-table-column prop="ibody" label="违规描述"></el-table-column>
+                <el-table-column prop="irName" label="举报人"></el-table-column>
                 <el-table-column align="center">
                   <template slot="header">
                     <p>处理</p>
@@ -28,7 +29,7 @@
                 </el-table-column>
               </el-table>
             </div>
-            <el-pagination background layout="prev, pager, next, jumper"
+            <el-pagination v-if="nums>10" background layout="prev, pager, next, jumper"
                            :total="nums" @current-change="updatePage">
             </el-pagination>
           </el-col>
@@ -59,8 +60,8 @@ export default {
           page: page
         }
       }).then(res => {
-        this.nums = res.data[0];
-        this.irrs = res.data[1]
+        this.nums = res.data.total;
+        this.irrs = res.data.list;
       }).catch(error => {
         console.log(error)
       })

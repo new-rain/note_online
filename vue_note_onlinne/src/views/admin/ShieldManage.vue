@@ -18,7 +18,7 @@
             <div class="hg_20"></div>
           </el-col>
           <el-col :span="2">
-            <el-button class="wd_100" type="primary" plain @click="addShield">添加</el-button>
+            <el-button class="wd_100" type="warning" @click="addShield">添加</el-button>
           </el-col>
           <el-col :span="3"></el-col>
         </el-row>
@@ -97,6 +97,6 @@ export default {
 
 <style scoped>
 .shieldManage {
-  background: rgba(32, 140, 255, 0.1);
+  background: rgba(32, 140, 255, 0.05);
 }
 </style>

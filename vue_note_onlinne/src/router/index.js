@@ -30,6 +30,7 @@ import NoteAudit from '@/views/admin/NoteAudit'
 import CheckAndAudit from "@/views/admin/CheckAndAudit";
 import AuditSuccess from "@/views/admin/AuditSuccess";
 import AuditLog from "@/views/admin/AuditLog";
+import AppealAuditLog from "@/views/admin/AppealAuditLog";
 import ReleaseMessage from "@/views/admin/ReleaseMessage";
 import CheckFeedback from "@/views/admin/CheckFeedback";
 import AppealAudit from "@/views/admin/AppealAudit";
@@ -40,6 +41,7 @@ import AdminPwd from "@/views/admin/AdminPwd";
 import AdminRegister from "@/views/admin/AdminRegister";
 import AddRNum from "@/views/admin/AddRNum";
 import AdminManage from "@/views/admin/AdminManage";
+import UserAppeal from "@/views/user/UserAppeal";
 
 Vue.use(VueRouter)
 
@@ -89,6 +91,11 @@ const routes = [
         path: '/checkState/:no',
         name: 'CheckState',
         component: CheckState
+    },
+    {
+        path: '/userAppeal/:no',
+        name: 'UserAppeal',
+        component: UserAppeal
     },
     /* 笔记模块 */
     {
@@ -198,6 +205,11 @@ const routes = [
         path: '/admin/auditLog',
         name: 'AuditLog',
         component: AuditLog
+    },
+    {
+        path: '/admin/appealAuditLog',
+        name: 'AppealAuditLog',
+        component: AppealAuditLog
     },
     {
         path: '/admin/releaseMessage',

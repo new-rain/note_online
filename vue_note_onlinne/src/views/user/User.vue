@@ -318,21 +318,6 @@ export default {
         console.log(error)
       })
     },
-    chooseHeader() {
-      let params = new URLSearchParams();
-      params.append("headUrl", this.cover);
-      params.append("no", this.user.no);
-      this.$axios.put("/updateHeadUrl", params).then(res => {
-        if (res.data) {
-          this.choose = false;
-          this.user.headUrl = this.cover;
-          this.headUrl = 'background:url(' + this.cover + ')';
-          this.$store.commit("SET_USER", this.user);
-        }
-      }).catch(error => {
-        console.log(error)
-      })
-    },
     exit() {
       this.$store.commit("REMOVE_STATE");
       window.location.href = "/login"
@@ -454,7 +439,6 @@ export default {
   width: 150px;
 }
 
-
 .chooseHeader {
   width: 40%;
   height: 300px;
@@ -477,6 +461,7 @@ export default {
   width: 120px;
   height: 120px;
   position: absolute;
+  left: 100px;
 }
 
 .fileInput {

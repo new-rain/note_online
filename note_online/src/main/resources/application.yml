@@ -3,7 +3,7 @@ server:
 
 logging:
   level:
-    pers.jxy.dao: debug
+    pers.jxy: debug
 
 spring:
   mail:
@@ -59,6 +59,11 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 
+
 note:
-  notePath: D:\note\note
+  path: D:\note\
+  note: note
+  user: user
+  admin: admin
+
 

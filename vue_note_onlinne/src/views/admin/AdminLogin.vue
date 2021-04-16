@@ -5,7 +5,10 @@
       <div class="mgt_50">
         <input class="loginInput" placeholder="请输入管理员账号" v-model="adminNo"></input>
         <input class="loginInput mgt_30" type="password" placeholder="请输入管理员密码" v-model="adminPassword"></input>
-        <el-button class="mgt_50 wd_60" type="primary" plain @click="login">管理员登录</el-button>
+        <el-button class="mgt_30 wd_60" type="primary" plain @click="login">管理员登录</el-button>
+      </div>
+      <div class="goRegister">
+        <a href="/admin/adminRegister">管理员注册</a>
       </div>
     </div>
   </div>
@@ -28,9 +31,10 @@ export default {
           password: this.adminPassword
         }
       }).then(res => {
-        if (res.data != null) {
+        if (res.data != null && res.data != '') {
           this.$store.commit("SET_ADMIN", res.data);
           this.$store.commit("SET_ADMINNO", res.data.id);
+          this.getAdminHead(res.data.headUrl);
           window.location.href = '/admin';
         } else {
           this.$message.error("账号或密码错误，请重新尝试")
@@ -39,7 +43,26 @@ export default {
       }).catch(error => {
         console.log(error);
       })
-    }
+    },
+    getAdminHead(headUrl) {
+      this.$axios({
+        method: 'get',
+        url: '/getAdminHead?headUrl=' + headUrl,
+        responseType: 'arraybuffer'
+      }).then(response => {
+        this.head = 'data:image/jpeg;base64,' + this.arrayBufferToBase64(response.data)
+        this.$store.commit("SET_ADMINHEAD", this.head);
+      })
+    },
+    arrayBufferToBase64(buffer) {
+      let binary = ''
+      let bytes = new Uint8Array(buffer)
+      let len = bytes.byteLength
+      for (let i = 0; i < len; i++) {
+        binary += String.fromCharCode(bytes[i])
+      }
+      return window.btoa(binary)
+    },
   }
 }
 </script>
@@ -68,5 +91,15 @@ export default {
   border: none;
   border-bottom: 1px solid #000000;
   width: 60%;
+}
+
+.goRegister {
+  margin-top: 80px;
+  text-align: right;
+}
+
+.goRegister a {
+
+  color: blue;
 }
 </style>

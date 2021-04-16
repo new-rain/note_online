@@ -56,7 +56,7 @@
             <el-button type="primary" @click="agreeClause">阅读并同意</el-button>
         </span>
     </el-dialog>
-    <div v-if="choose" class="chooseHeader">
+    <!--<div v-if="choose" class="chooseHeader">
       <h2 class="mgt_20 mgb_30">请选择头像</h2>
       <el-row class="img">
         <el-col :span="2">
@@ -106,7 +106,7 @@
       </el-row>
       <el-button class="wd_49" @click="choose=false">取消</el-button>
       <el-button class="wd_49" type="primary" @click="chooseHeader()">选择</el-button>
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -238,7 +238,6 @@ export default {
         params.append("username", username);
         params.append("password", password);
         params.append("email", email);
-        params.append("headerUrl", this.headUrl);
         this.$axios.post("register", params).then(res => {
           let result = res.data;
           if (result[0] === 0) {
@@ -282,10 +281,6 @@ export default {
       this.use = false;
       this.agree = true;
     },
-    chooseHeader() {
-      this.headUrl = this.cover;
-      this.choose = false;
-    }
   },
 }
 </script>

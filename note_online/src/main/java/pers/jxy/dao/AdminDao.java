@@ -14,8 +14,8 @@ public interface AdminDao {
      * 添加管理员，并返回主键
      */
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    @Insert("insert into admin (password ,name ,mobile ,email) " +
-            "values (#{admin.password},#{admin.name},#{admin.mobile},#{admin.email})")
+    @Insert("insert into admin (password ,name ,mobile ,email ,headUrl) " +
+            "values (#{admin.password},#{admin.name},#{admin.mobile},#{admin.email},#{admin.headUrl})")
     Boolean addAdmin(@Param("admin") Admin admin);
 
     /**
@@ -28,8 +28,8 @@ public interface AdminDao {
      * 修改管理员信息
      */
     @Update("update admin " +
-            "set password=#{admin.password}, name=#{admin.name} , mobile = #{admin.mobile} , email = #{admin.email} " +
-            "where id = #{admin.id}")
+            "set name=#{admin.name} ,mobile = #{admin.mobile} ," +
+            " email = #{admin.email} where id = #{admin.id}")
     Boolean updateAdmin(@Param("admin") Admin admin);
 
     /**
@@ -65,7 +65,7 @@ public interface AdminDao {
     /**
      * 查询所有管理员信息（除超级管理员）
      */
-    @SelectProvider(value = SQLUtil.class,method = "selectAdminOrder")
+    @SelectProvider(value = SQLUtil.class, method = "selectAdminOrder")
     List<Admin> selectAdmins(Integer type);
 
     /**
@@ -74,4 +74,16 @@ public interface AdminDao {
     @Update("update admin set achievement = achievement + #{ach} " +
             "where id = #{id}")
     Boolean addAch(@Param("id") Integer id, @Param("ach") Integer ach);
+
+    /**
+     * 查询管理员头像保存路径
+     */
+    @Select("select headUrl from admin where id = #{id}")
+    String selectAdminHeadUrl(@Param("id") Integer id);
+
+    /**
+     * 修改管理员头像路径
+     */
+    @Update("update admin set headUrl = #{headUrl} where id = #{id}")
+    void updateHeadUrl(String headUrl, Integer id);
 }

@@ -1,6 +1,7 @@
 package pers.jxy.service;
 
 import com.github.pagehelper.PageInfo;
+import org.springframework.web.multipart.MultipartFile;
 import pers.jxy.entity.Admin;
 
 import java.util.List;
@@ -58,4 +59,8 @@ public interface AdminService {
      * @return:是否添加成功;
      */
     Boolean addAch(Integer id, Integer ach);
+
+    String uploadHead(MultipartFile file, Integer no);
+
+    Boolean updateAdmin(Admin admin);
 }

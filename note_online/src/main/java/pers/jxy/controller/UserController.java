@@ -57,12 +57,12 @@ public class UserController {
      * 注册新用户
      */
     @PostMapping("/register")
-    public Integer[] register(String username, String password, String email, String headerUrl) {
+    public Integer[] register(String username, String password, String email) {
         User user = new User();
         user.setNickname(username);
         user.setPassword(password);
         user.setEmail(email);
-        user.setHeadUrl(headerUrl);
+        user.setHeadUrl("user_default.jpg");
         user.setCreateTime(NoteBookOnlineUtils.getNow());
         Integer[] res = userService.register(user);
         return res;
@@ -87,9 +87,17 @@ public class UserController {
     /**
      * 封禁账号
      */
-    @DeleteMapping("/banUser")
-    public Boolean banUser(Integer no) {
-        return userService.banUser(no);
+    @PutMapping("/banUser")
+    public Boolean banUser(Integer no, Long times) {
+        return userService.banUser(no, times);
+    }
+
+    /**
+     * 查看是否封禁。返回封禁时间
+     */
+    @GetMapping("/checkState")
+    public Long checkState(Integer no) {
+        return userService.checkState(no);
     }
 
     /**
@@ -111,6 +119,9 @@ public class UserController {
         return userService.updateHeadUrl(headUrl, no);
     }
 
+    /**
+     * 上传头像
+     */
     @PostMapping("/uploadHead")
     public String uploadHead(MultipartFile file, Integer no) {
         return userService.uploadHead(file, no);
@@ -251,7 +262,7 @@ public class UserController {
      * 查找用户
      */
     @GetMapping("/searchUser")
-    public Object[]  searchUser(String keyWord, Integer no, Integer page) {
+    public Object[] searchUser(String keyWord, Integer no, Integer page) {
         return userService.searchUser(keyWord, no, page);
     }
 

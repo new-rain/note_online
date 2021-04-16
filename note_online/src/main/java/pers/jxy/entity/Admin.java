@@ -24,5 +24,6 @@ public class Admin implements Serializable {
     private Integer irNum;
     private Integer apNum;
     private Integer achievement;
+    private String headUrl;
 
 }

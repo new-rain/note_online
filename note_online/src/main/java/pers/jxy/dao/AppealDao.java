@@ -50,6 +50,33 @@ public interface AppealDao {
     /**
      * 将申诉状态改为已处理
      */
-    @Update("update appeal set a_state = 1 where a_no = #{ no }")
-    Boolean auditaAppeal(@Param("no") Integer no);
+    @Update("update appeal set a_state = 1 , a_id = #{id} ,a_type = #{aType} where a_no = #{ no }")
+    Boolean auditaAppeal(@Param("no") Integer no, @Param("id") Integer id, @Param("aType") Integer aType);
+
+    /**
+     * 查看申诉处理记录
+     */
+    @Select("select (select n_name from note where n_no = an_no) an_name,\n" +
+            "       a_reason,\n" +
+            "       (select name from user where no = au_no)     au_name,\n" +
+            "       (select name from admin where id = a_id)     admin,\n" +
+            "       a_type,\n" +
+            "       aa_time\n" +
+            "from appeal\n" +
+            "where a_state = 1\n" +
+            "order by aa_time desc\n")
+    List<Appeal> selectAppealLog();
+
+    @Select("select (select n_name from note where n_no = an_no) an_name,\n" +
+            "       a_reason,\n" +
+            "       (select name from user where no = au_no)     au_name,\n" +
+            "       a_type,\n" +
+            "       aa_time\n" +
+            "from appeal\n" +
+            "where a_id = #{id}\n" +
+            "order by aa_time desc\n")
+    List<Appeal> getAppealLog(Integer id);
+
+    @Insert("insert into appeal () values ()")
+    Boolean userAppeal(Integer no, Integer iNo);
 }

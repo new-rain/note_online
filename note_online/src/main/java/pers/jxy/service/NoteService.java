@@ -1,12 +1,9 @@
 package pers.jxy.service;
 
-import org.apache.ibatis.annotations.Param;
 import pers.jxy.entity.Note;
-import pers.jxy.entity.NoteBook;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 
 public interface NoteService {

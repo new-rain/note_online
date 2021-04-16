@@ -8,6 +8,7 @@ export default new Vuex.Store({
         user: JSON.parse(localStorage.getItem('user')),
         userNo: localStorage.getItem('userNo'),
         userHead: localStorage.getItem('userHead'),
+        adminHead: localStorage.getItem('adminHead'),
         admin: JSON.parse(localStorage.getItem('admin')),
         adminNo: localStorage.getItem('adminNo'),
     },
@@ -23,6 +24,10 @@ export default new Vuex.Store({
         SET_USERHEAD: (state, userHead) => {
             state.userHead = userHead;
             localStorage.setItem("userHead", userHead);
+        },
+        SET_ADMINHEAD: (state, adminHead) => {
+            state.adminHead = adminHead;
+            localStorage.setItem("adminHead", adminHead);
         },
         SET_ADMIN: (state, admin) => {
             state.admin = admin;
@@ -48,6 +53,10 @@ export default new Vuex.Store({
             state.userHead = '';
             localStorage.setItem("userHead", '');
         },
+        REMOVE_ADMINHEAD: (state) => {
+            state.adminHead = '';
+            localStorage.setItem("adminHead", '');
+        },
     },
     getters: {
         getUser: state => {
@@ -58,6 +67,9 @@ export default new Vuex.Store({
         },
         getUserHead: state => {
             return state.userHead;
+        },
+        getAdminHead: state => {
+            return state.adminHead;
         },
         getAdmin: state => {
             return state.admin;

@@ -3,6 +3,7 @@ package pers.jxy.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import pers.jxy.dao.AppealDao;
 import pers.jxy.dao.MessageDao;
@@ -28,6 +29,9 @@ public class AppealServiceImpl implements AppealService {
     @Autowired
     NoteDao noteDao;
 
+    @Autowired
+    RedisTemplate redisTemplate;
+
     @Override
     public Boolean insertAppeal(Appeal appeal) {
         return appealDao.insertAppeal(appeal);
@@ -47,12 +51,12 @@ public class AppealServiceImpl implements AppealService {
     }
 
     @Override
-    public Boolean auditaAppeal(Integer no) {
-        return appealDao.auditaAppeal(no);
+    public Boolean auditaAppeal(Integer no, Integer id, Integer aType) {
+        return appealDao.auditaAppeal(no, id, aType);
     }
 
     @Override
-    public Boolean appealSuccess(Integer adType, Integer uno, Integer ano, String reason, String noteName, Integer noteNo) {
+    public Boolean appealSuccess(Integer adType, Integer uno, Integer ano, String reason, String noteName, Integer noteNo, Integer id, Integer aType) {
         //如果原处理是1，表示要求修改，则发送消息,说明申诉成功
         Message message = new Message();
         message.setMToWhoNo(uno);
@@ -61,10 +65,33 @@ public class AppealServiceImpl implements AppealService {
         //如果原处理是2，将笔记状态改为正常
         if (adType == 2) {
             noteDao.delNote(noteNo, 1);
+        } else if (adType == 3) {
+            redisTemplate.delete("black-menu-" + uno);
         }
         messageDao.leaveMessage(message);
         //将投诉取消
 
-        return appealDao.auditaAppeal(ano);
+        return appealDao.auditaAppeal(ano, id, aType);
+    }
+
+    @Override
+    public PageInfo<Appeal> selectAppealLog(Integer page) {
+        PageHelper.startPage(page, 10);
+        List<Appeal> appeals = appealDao.selectAppealLog();
+        PageInfo<Appeal> pageInfo = new PageInfo<>(appeals);
+        return pageInfo;
+    }
+
+    @Override
+    public PageInfo<Appeal> getAppealLog(Integer id, Integer page) {
+        PageHelper.startPage(page, 5);
+        List<Appeal> appeals = appealDao.getAppealLog(id);
+        PageInfo<Appeal> pageInfo = new PageInfo<>(appeals);
+        return pageInfo;
+    }
+
+    @Override
+    public Boolean userAppeal(Integer no, Integer iNo) {
+        return appealDao.userAppeal(no, iNo);
     }
 }

@@ -23,6 +23,7 @@ public class AppealController {
     public Boolean insertAppeal(Integer uNo, Integer noteNo, String abody, String reason, Integer adType) {
         Appeal appeal = new Appeal();
         appeal.setAuNo(uNo);
+        System.out.println(noteNo);
         appeal.setAnNo(noteNo);
         appeal.setABody(abody);
         appeal.setAReason(reason);
@@ -42,12 +43,23 @@ public class AppealController {
     }
 
     @PutMapping("/auditaAppeal")
-    public Boolean auditaAppeal(Integer no) {
-        return appealService.auditaAppeal(no);
+    public Boolean auditaAppeal(Integer no, Integer id, Integer aType) {
+        return appealService.auditaAppeal(no, id, aType);
     }
 
     @PutMapping("/appealSuccess")
-    public Boolean appealSuccess(Integer type, Integer uno, Integer ano, String reason, String noteName, Integer noteNo) {
-        return appealService.appealSuccess(type, uno, ano, reason, noteName, noteNo);
+    public Boolean appealSuccess(Integer type, Integer uno, Integer ano, String reason, String noteName, Integer noteNo, Integer id, Integer aType) {
+        return appealService.appealSuccess(type, uno, ano, reason, noteName, noteNo, id, aType);
+    }
+
+    @GetMapping("/selectAppealLog")
+    public PageInfo<Appeal> selectAppealLog(Integer page) {
+        return appealService.selectAppealLog(page);
+    }
+
+    @GetMapping("/getAppealLog")
+    public PageInfo<Appeal> getAppealLog(Integer id, Integer page) {
+        System.out.println(appealService.getAppealLog(id, page));
+        return appealService.getAppealLog(id, page);
     }
 }

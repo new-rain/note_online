@@ -43,6 +43,18 @@ export default {
       if (this.user == "") {
         alert("请先登录")
         window.location.href = "/login";
+      } else {
+        this.$axios.get("/checkState", {
+          params: {
+            no: this.user.no
+          }
+        }).then(res => {
+          if (res.data > 0) {
+            window.location.href = "/userAppeal/" + this.user.no;
+          }
+        }).catch(error => [
+          console.log(error)
+        ])
       }
     },
   },

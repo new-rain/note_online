@@ -42,8 +42,7 @@ public class NoteController {
      */
     @GetMapping("/seeNote")
     public Note seeNote(Integer no, Integer uNo) {
-        Note note = noteService.queryNote(no, uNo);
-        return note;
+        return noteService.queryNote(no, uNo);
     }
 
     /**
@@ -51,8 +50,7 @@ public class NoteController {
      */
     @GetMapping("/getNote")
     public Note getNote(Integer no, Integer uNo) {
-        Note note = noteService.getNote(no, uNo);
-        return note;
+        return noteService.getNote(no, uNo);
     }
 
     /**

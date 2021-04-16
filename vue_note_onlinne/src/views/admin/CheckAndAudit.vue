@@ -41,6 +41,18 @@
         </div>
       </el-col>
     </el-row>
+    <div class="inputTime" v-if="inputTime">
+      <h3 class="mgt_20 mgb_20 ta_c">请输入封禁时间</h3>
+      <el-input v-model="timeNum"></el-input>
+      <select v-model="timeDW">
+        <option value="1">时</option>
+        <option value="24">天</option>
+        <option value="720">月</option>
+        <option value="259,200">年</option>
+      </select><br/>
+      <el-button @click="inputTime=false">取消</el-button>
+      <el-button @click="doBan" type="danger">封禁</el-button>
+    </div>
   </div>
 </template>
 
@@ -59,7 +71,10 @@ export default {
       no: '',
       irr: {},
       note: {},
-      oneKey: false
+      oneKey: false,
+      inputTime: false,
+      timeNum: 0,
+      timeDW: ''
     }
   },
   methods: {
@@ -82,6 +97,9 @@ export default {
         }
       }).then(res => {
         this.note = res.data;
+        if (this.note == null || this.note == '') {
+          this.note.arthicle = "文章已被删除或封禁"
+        }
         this.$nextTick(() => {
           let blocks = document.querySelectorAll('pre code');
           blocks.forEach((block) => {
@@ -95,14 +113,24 @@ export default {
     aduit(aduitRes) {
       if (aduitRes == 1 || aduitRes == 4) {
         this.sendMsg(aduitRes, this.oneKey);
+        this.asuccess(aduitRes);
       } else if (aduitRes == 2) {
         this.delNote(this.irr.inNo);
-        this.sendMsg(aduitRes);
+        this.sendMsg(aduitRes, this.oneKey);
+        this.asuccess(aduitRes);
       } else if (aduitRes == 3) {
         //封禁账号
-        this.sendMsg(aduitRes);
-        this.banUser(this.irr.isNo);
+        this.inputTime = true;
       }
+    },
+    doBan() {
+      let times = this.timeNum * this.timeDW;
+      this.sendMsg(3, this.oneKey);
+      this.banUser(this.irr.isNo, times);
+      this.inputTime = false;
+      this.asuccess(3);
+    },
+    asuccess(aduitRes) {
       this.$message({
         showClose: true,
         message: '处理成功',
@@ -164,8 +192,11 @@ export default {
         });
       })
     },
-    banUser(no) {
-      this.$axios.delete("/banUser?no=" + no).then(res => {
+    banUser(no, times) {
+      let params = new URLSearchParams();
+      params.append("no", no);
+      params.append("times", times);
+      this.$axios.put("/banUser", params).then(res => {
         this.$message({
           showClose: true,
           message: "已成功封禁用户账号" + no,
@@ -197,5 +228,34 @@ export default {
   position: absolute;
   width: 58%;
   height: 98%;
+}
+
+.inputTime {
+  position: fixed;
+  left: 40%;
+  width: 20%;
+  height: 200px;
+  top: 200px;
+  border-radius: 5px;
+  border: 1px solid #4facfe;
+  background: white;
+}
+
+.inputTime .el-input {
+  width: 100px;
+}
+
+.inputTime select {
+  width: 80px;
+  height: 36px;
+  border: 1px solid #4facfe;
+  margin-left: 20px;
+  padding-left: 20px;
+  outline: none;
+}
+
+.inputTime .el-button {
+  width: 100px;
+  margin-top: 20px;
 }
 </style>

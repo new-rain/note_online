@@ -3,12 +3,16 @@ package pers.jxy.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import pers.jxy.dao.AdminDao;
 import pers.jxy.entity.Admin;
 import pers.jxy.service.AdminService;
 import pers.jxy.util.NoteBookOnlineUtils;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -17,9 +21,16 @@ import java.util.Map;
  * @date : 03-27 19:50
  */
 @Service
+@PropertySource("classpath:application.yml")
 public class AdminServiceImpl implements AdminService {
     @Autowired
     private AdminDao adminDao;
+
+    @Value("${note.path}")
+    private String note_path;
+
+    @Value("${note.admin}")
+    private String adminPath;
 
     @Override
     public Integer addAdmin(Admin admin, String rnum) {
@@ -106,5 +117,19 @@ public class AdminServiceImpl implements AdminService {
         return adminDao.addAch(id, ach);
     }
 
+    @Override
+    public String uploadHead(MultipartFile file, Integer id) {
+        String nowHeadUrl = adminDao.selectAdminHeadUrl(id);
+        File oldHead = new File(note_path + adminPath + nowHeadUrl);
+        oldHead.delete();
+        String headUrl = NoteBookOnlineUtils.uploadImg(file, id, note_path + adminPath);
+        headUrl = NoteBookOnlineUtils.imgZip(headUrl, "admin", note_path);
+        adminDao.updateHeadUrl(headUrl, id);
+        return headUrl;
+    }
 
+    @Override
+    public Boolean updateAdmin(Admin admin) {
+        return adminDao.updateAdmin(admin);
+    }
 }

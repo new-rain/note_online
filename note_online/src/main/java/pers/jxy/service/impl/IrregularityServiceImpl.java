@@ -31,14 +31,19 @@ public class IrregularityServiceImpl implements IrregularityService {
     }
 
     @Override
-    public Object[] selectIrrs(Integer page, Integer type) {
-        Object[] res = new Object[2];
+    public PageInfo<Irregularity> selectIrrs(Integer page) {
         PageHelper.startPage(page, 10);
-        List<Irregularity> irregularities = irregularityDao.selectIrrs(type);
+        List<Irregularity> irregularities = irregularityDao.selectIrrs();
         PageInfo<Irregularity> pageInfo = new PageInfo<>(irregularities);
-        res[0] = irregularityDao.selectIrrNum(type);
-        res[1] = irregularities;
-        return res;
+        return pageInfo;
+    }
+
+    @Override
+    public PageInfo<Irregularity> selctAuditLog(Integer page) {
+        PageHelper.startPage(page, 10);
+        List<Irregularity> irregularities = irregularityDao.selctAuditLog();
+        PageInfo<Irregularity> pageInfo = new PageInfo<>(irregularities);
+        return pageInfo;
     }
 
     @Override
@@ -47,7 +52,7 @@ public class IrregularityServiceImpl implements IrregularityService {
     }
 
     @Override
-    public Boolean aduitIrr(Integer inNo, Integer iType, Integer iNo, Integer res, Integer irNo, Integer isNo, String[] msg, Boolean onekey) {
+    public Boolean aduitIrr(Integer inNo, Integer iType, Integer iNo, Integer res, Integer irNo, Integer isNo, String[] msg, Boolean onekey, Integer id) {
         Boolean res1 = false, res2 = false, res3 = false;
         Message message = new Message();
         message.setMBody(msg[0]);
@@ -64,7 +69,7 @@ public class IrregularityServiceImpl implements IrregularityService {
             }
         } else {
             //1.将结果添加到记录中，将违规状态改为已处理
-            res1 = irregularityDao.aduit(iNo, res, NoteBookOnlineUtils.getNow());
+            res1 = irregularityDao.aduit(iNo, res, NoteBookOnlineUtils.getNow(), id);
             //2.想举报者与被举报者发送消息
             message.setMToWhoNo(irNo);
             res2 = messageDao.leaveMessage(message);
@@ -78,5 +83,18 @@ public class IrregularityServiceImpl implements IrregularityService {
             res3 = messageDao.leaveMessage(message1);
         }
         return res1 && res2 && res3;
+    }
+
+    @Override
+    public PageInfo<Irregularity> getIrrLog(Integer id, Integer page) {
+        PageHelper.startPage(page, 5);
+        List<Irregularity> irrs = irregularityDao.getAuditLog(id);
+        PageInfo<Irregularity> pageInfo = new PageInfo<>(irrs);
+        return pageInfo;
+    }
+
+    @Override
+    public Irregularity getBanReason(Integer no) {
+        return irregularityDao.getBanReason(no).get(0);
     }
 }

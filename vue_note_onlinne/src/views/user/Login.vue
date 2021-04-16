@@ -16,13 +16,12 @@
 </template>
 
 <script>
-
-
 export default {
   data() {
     return {
       no: '',
       password: '',
+      times: ''
     };
   },
   methods: {
@@ -37,10 +36,15 @@ export default {
         params.append("password", password);
         this.$axios.post('/login', params).then(res => {
           if (res.data != null) {
-            this.$store.commit("SET_USER", res.data);
-            this.$store.commit("SET_USERNO", res.data.no);
-            this.getUserHead(res.data.headUrl);
-            window.location.href = "/";
+            this.checkState();
+            if (this.times > 0) {
+              this.$store.commit("SET_USER", res.data);
+              this.$store.commit("SET_USERNO", res.data.no);
+              this.getUserHead(res.data.headUrl);
+              window.location.href = "/";
+            } else {
+              window.location.href = "/userAppeal/" + this.no;
+            }
           } else {
             this.$message({
               showClose: true,
@@ -77,9 +81,21 @@ export default {
       }
       return window.btoa(binary)
     },
+    checkState() {
+      this.$axios.get("/checkState", {
+        params: {
+          no: this.no
+        }
+      }).then(res => {
+        this.times = res.data;
+      }).catch(error => [
+        console.log(error)
+      ])
+    },
   },
 }
 </script>
+
 <style scoped>
 .login {
   height: 753px;

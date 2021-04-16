@@ -11,7 +11,7 @@
         <input v-model="oldPassword" type="password" class="pwd" placeholder="请输入旧密码"></input>
         <input v-model="password" type="password" class="pwd" placeholder="请输入新密码"></input>
         <input v-model="pwd" type="password" class="pwd" placeholder="请确认新密码"></input>
-        <el-button class="wd_40" type="primary" @click="update">修改</el-button>
+        <el-button class="wd_40 mgt_20" type="primary" @click="update">修改</el-button>
       </el-col>
     </el-row>
   </div>
@@ -85,7 +85,7 @@ export default {
   display: block;
   margin: 30px auto;
   height: 40px;
-  border-radius: 10px;
+  border-radius: 5px;
   border: 2px solid #4facfe;
   padding-left: 20px;
 }

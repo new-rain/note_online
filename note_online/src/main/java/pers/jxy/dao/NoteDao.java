@@ -138,7 +138,7 @@ public interface NoteDao {
      * 删除笔记(不可读)
      */
     @Update("update note set note_state= #{state} where n_no=#{no} ")
-    Integer delNote(@Param("no") Integer no,@Param("state") Integer state);
+    Integer delNote(@Param("no") Integer no, @Param("state") Integer state);
 
     /**
      * 查询笔记保存路径

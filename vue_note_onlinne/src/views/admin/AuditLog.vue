@@ -11,18 +11,19 @@
             <div class="blank_30"></div>
           </el-col>
           <el-col :span="20">
-            <h1 class="mgt_20 mgb_30">笔记违规处理记录</h1>
+            <h1 class="mgt_20 mgb_30">违规处理记录</h1>
             <div class="hg_600">
               <el-table :data="irrs" stripe style="width: 100%">
                 <el-table-column type="index"></el-table-column>
                 <el-table-column prop="inName" label="笔记标题" width="180"></el-table-column>
                 <el-table-column prop="irType" label="违规类型" width="180"></el-table-column>
                 <el-table-column prop="ibody" label="违规描述"></el-table-column>
+                <el-table-column prop="admin" label="处理人"></el-table-column>
                 <el-table-column prop="res" label="处理结果"></el-table-column>
                 <el-table-column prop="iaTime" label="处理时间"></el-table-column>
               </el-table>
             </div>
-            <el-pagination background layout="prev, pager, next, jumper"
+            <el-pagination v-if="nums>10" background layout="prev, pager, next, jumper"
                            :total="nums" @current-change="updatePage">
             </el-pagination>
           </el-col>
@@ -53,8 +54,8 @@ export default {
           page: page
         }
       }).then(res => {
-        this.nums = res.data[0];
-        this.irrs = res.data[1]
+        this.nums = res.data.total;
+        this.irrs = res.data.list;
       }).catch(error => {
         console.log(error)
       })
@@ -71,7 +72,7 @@ export default {
 </script>
 
 <style scoped>
-.aduitLog{
+.aduitLog {
   overflow: hidden;
   background-color: rgba(200, 200, 200, 0.1);
 }
