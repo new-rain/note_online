@@ -1,13 +1,16 @@
 package pers.jxy.service;
 
+import org.springframework.transaction.annotation.Transactional;
 import pers.jxy.entity.NoteBook;
 
 import java.util.*;
 
+@Transactional(readOnly = true)
 public interface NoteBookService {
     /**
      * 新建笔记本
      */
+    @Transactional(readOnly = false)
     Integer newNoteBook(NoteBook noteBook);
 
     /**
@@ -18,6 +21,7 @@ public interface NoteBookService {
     /**
      * 根据编号删除笔记本
      */
+    @Transactional(readOnly = false)
     Boolean deleteNoteBook(Integer bNo);
 
     /**
@@ -28,6 +32,7 @@ public interface NoteBookService {
     /**
      * 修改笔记本
      */
+    @Transactional(readOnly = false)
     Boolean updateNoteBook(NoteBook noteBook);
 
     /**

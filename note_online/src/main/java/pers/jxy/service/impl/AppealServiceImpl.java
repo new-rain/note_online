@@ -90,8 +90,4 @@ public class AppealServiceImpl implements AppealService {
         return pageInfo;
     }
 
-    @Override
-    public Boolean userAppeal(Integer no, Integer iNo) {
-        return appealDao.userAppeal(no, iNo);
-    }
 }

@@ -38,12 +38,12 @@ export default {
           if (res.data != null) {
             this.checkState();
             if (this.times > 0) {
+              window.location.href = "/userAppeal/" + this.no;
+            } else {
               this.$store.commit("SET_USER", res.data);
               this.$store.commit("SET_USERNO", res.data.no);
               this.getUserHead(res.data.headUrl);
               window.location.href = "/";
-            } else {
-              window.location.href = "/userAppeal/" + this.no;
             }
           } else {
             this.$message({

@@ -19,12 +19,12 @@ public class AdminController {
     @Autowired
     AdminService adminService;
 
-    @GetMapping("adminLogin")
+    @GetMapping("/adminLogin")
     public Admin AdminLogin(Integer id, String password) {
         return adminService.selectAdmin(id, password);
     }
 
-    @PutMapping("updatePassword")
+    @PutMapping("/updatePassword")
     public Boolean updatePassword(Integer id, String old, String password) {
         return adminService.updatePassword(id, old, password);
     }
@@ -55,7 +55,6 @@ public class AdminController {
     public String uploadAdminHead(MultipartFile file, Integer id) {
         return adminService.uploadHead(file, id);
     }
-
 
     @GetMapping("/getRNum")
     public List<String> getRNum() {

@@ -76,7 +76,4 @@ public interface AppealDao {
             "where a_id = #{id}\n" +
             "order by aa_time desc\n")
     List<Appeal> getAppealLog(Integer id);
-
-    @Insert("insert into appeal () values ()")
-    Boolean userAppeal(Integer no, Integer iNo);
 }

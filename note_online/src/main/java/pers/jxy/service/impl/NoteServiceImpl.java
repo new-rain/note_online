@@ -79,8 +79,8 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public Boolean delNote(Integer no) {
-        Integer res = noteDao.delNote(no, 0);
-        return res > 0;
+        noteDao.delCol(no);
+        return noteDao.delNote(no, 0);
     }
 
     @Override

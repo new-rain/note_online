@@ -278,7 +278,7 @@ public class UserController {
      * 查询各项前8
      */
     @GetMapping("/eachTop")
-    List<List<User>> eachTop8() {
+    public List<List<User>> eachTop8() {
         return userService.eachTop8();
     }
 
@@ -297,4 +297,5 @@ public class UserController {
     public Boolean getUserState(Integer no) {
         return userService.getUserState(no);
     }
+
 }

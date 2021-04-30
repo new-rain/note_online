@@ -28,7 +28,7 @@ public class NoteBookController {
      * @param uno:作者账号;
      * @param coverImg:笔记本封面图片地址
      */
-    @PostMapping("newNoteBook")
+    @PostMapping("/newNoteBook")
     public Integer newNoteBook(String name, String describe, int power, String[] type, int uno, String coverImg) {
         NoteBook noteBook = new NoteBook();
         noteBook.setBName(name);
@@ -78,7 +78,7 @@ public class NoteBookController {
     /**
      * 修改笔记本
      */
-    @PutMapping("updateNoteBook")
+    @PutMapping("/updateNoteBook")
     public Boolean updateNoteBook(Integer no, String name, String describe, String[] type, Integer power, String coverUrl) {
         NoteBook noteBook = new NoteBook();
         noteBook.setBNo(no);

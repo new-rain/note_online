@@ -20,8 +20,8 @@ public interface NoteBookDao {
     @Select("select * from notebook where u_no=#{no} order by b_update_time and notebook_state = 1")
     List<NoteBook> queryAllNoteBooks(@Param("no") Integer no);
 
-    @Delete("delete from notebook where b_no=#{bNo} and notebook_state = 1")
-    Integer deleteNoteBook(@Param("bNo") Integer bNo);
+    @Update("update notebook set notebook_state = 0 where b_no=#{bNo}")
+    Boolean deleteNoteBook(@Param("bNo") Integer bNo);
 
     @Select("select b_no,\n" +
             "       b_name,\n" +
@@ -290,5 +290,11 @@ public interface NoteBookDao {
             "from notebook " +
             "where b_name like '%${name}%' and notebook_state = 1")
     List<NoteBook> fuzzySearchNoteBook2(@Param("name") String name);
+
+    /**
+     * 删除笔记本时，同时删除所有相关的收藏记录
+     */
+    @Delete("delete from user_note where un_type = 1 and note_no = #{no}")
+    Boolean delCol(@Param("no") Integer no);
 }
 

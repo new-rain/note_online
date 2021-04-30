@@ -138,7 +138,13 @@ public interface NoteDao {
      * 删除笔记(不可读)
      */
     @Update("update note set note_state= #{state} where n_no=#{no} ")
-    Integer delNote(@Param("no") Integer no, @Param("state") Integer state);
+    Boolean delNote(@Param("no") Integer no, @Param("state") Integer state);
+
+    /**
+     * 删除笔记本时，同时删除所有相关的收藏记录
+     */
+    @Delete("delete from user_note where un_type = 0 and note_no = #{no}")
+    Boolean delCol(@Param("no") Integer no);
 
     /**
      * 查询笔记保存路径
@@ -261,4 +267,10 @@ public interface NoteDao {
      */
     @Select("select ifnull((select v_num from visitNum where v_date = #{date}),0)")
     Integer select7DayVNum(String date);
+
+    /**
+     * 删除某个笔记本中的笔记
+     */
+    @Update("update note set note_state = 0 where nb_no = #{no}")
+    Boolean delNoteBook(@Param("no") Integer no);
 }

@@ -43,12 +43,9 @@ public class NoteBookServiceImpl implements NoteBookService {
      */
     @Override
     public Boolean deleteNoteBook(Integer bNo) {
-        Integer res = noteBookDao.deleteNoteBook(bNo);
-        if (res > 0) {
-            return Boolean.TRUE;
-        } else {
-            return Boolean.FALSE;
-        }
+        noteBookDao.delCol(bNo);
+        noteDao.delNoteBook(bNo);
+        return noteBookDao.deleteNoteBook(bNo);
     }
 
     /**

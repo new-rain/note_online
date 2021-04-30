@@ -32,14 +32,14 @@ export default {
   name: "UserAppeal",
   data() {
     return {
-      times: 888888,
+      times: 0,
       years: 0,
       months: 0,
       days: 0,
       hours: 0,
       minutes: 0,
       seconds: 0,
-      irr: [],
+      irr: {},
       abody: '',
       goExplain: false
     }
@@ -88,14 +88,15 @@ export default {
     },
     appeal() {
       let params = new URLSearchParams();
-      alert(this.irr.irType)
       params.append("uNo", this.no);
       params.append("noteNo", this.irr.inNo);
       params.append("abody", this.abody);
       params.append("reason", this.irr.irType);
       params.append("adType", 3);
       this.$axios.post("/insertAppeal", params).then(res => {
-        alert(res.data)
+        if (res.data) {
+          this.goExplain = false;
+        }
       }).catch(error => {
         console.log(error)
       })
