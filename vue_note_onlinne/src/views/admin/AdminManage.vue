@@ -120,7 +120,7 @@ export default {
             message: '添加成功',
             type: 'success'
           });
-          this.getAdmin(this.nowType);
+          this.getAdmin(this.nowType,1);
         } else {
           this.$message.error("添加出错，请重试");
         }

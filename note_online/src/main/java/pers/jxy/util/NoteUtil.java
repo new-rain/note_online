@@ -62,6 +62,7 @@ public class NoteUtil {
      * 向md文件中写入内容
      */
     public Boolean writeNote(String arthicle, String path) {
+//        File file = new File(note_path + note + "/"+path);
         File file = new File(path);
         FileWriter fileWriter = null;
         try {

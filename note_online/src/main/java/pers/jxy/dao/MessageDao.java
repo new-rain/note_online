@@ -10,7 +10,7 @@ public interface MessageDao {
     /**
      * 发送信息
      */
-    @Insert("insert into message (m_body,m_to_who_no,m_who_to_no,m_type,m_state) values (#{message.mBody},#{message.mToWhoNo}, #{message.mWhoToNo},#{message.mType},0);")
+    @Insert("insert into message (m_body,m_to_who_no,m_who_to_no,m_type,m_state,note_no) values (#{message.mBody},#{message.mToWhoNo}, #{message.mWhoToNo},#{message.mType},0,#{message.noteNo});")
     Boolean leaveMessage(@Param("message") Message message);
 
     /**

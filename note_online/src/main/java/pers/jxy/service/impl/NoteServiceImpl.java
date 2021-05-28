@@ -122,6 +122,7 @@ public class NoteServiceImpl implements NoteService {
         message.setMToWhoNo(noteDao.selectAuthorNo(nNo));
         message.setMWhoToNo(uNo);
         message.setMType(2);
+        message.setNoteNo(nNo);
         messageDao.leaveMessage(message);
         return res;
     }
@@ -196,9 +197,11 @@ public class NoteServiceImpl implements NoteService {
     public Boolean changeNote(Integer nno, String nname, String arthicle, String url) {
         arthicle = ShieldUtil.detection(arthicle);
         Boolean res1 = noteUtil.clearFile(url);
-        Boolean res2 = noteUtil.writeNote(arthicle, url);
+//        Boolean res2 = noteUtil.writeNote(arthicle, "D:\\note\\note\\" + url);
+        String path = noteUtil.saveArthicle(nno + "---" + nname, arthicle);
         Boolean res3 = noteDao.changeNote(nname, nno);
-        return res1 && res2 && res3;
+        return res1 && res3;
+//        return res1 && res2 && res3;
     }
 
     @Override

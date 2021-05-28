@@ -163,7 +163,7 @@ export default {
       message: '',
       open_lm: false,
       open_irr: false,
-      head:'',
+      head: '',
       options: [{
         value: '1',
         label: '含有敏感词'
@@ -255,14 +255,14 @@ export default {
       let nday = nTime.getDate();
       if ((nyear - cyear) > 0) {
         let years = (nyear - cyear) + (nmonth - cmonth) / 12;
-        this.times = years.toFixed(1) + "年"
+        this.times = years.toFixed(1) + " 年"
       } else {
         if ((nmonth - cmonth) > 0) {
           let months = (nmonth - cmonth) + (nday - cday) / 30;
-          this.times = months.toFixed(1);
+          this.times = months.toFixed(1) + " 月";
         } else {
           if ((nday - cday) > 0) {
-            this.times = (nday - cday) + "天";
+            this.times = (nday - cday) + " 天";
           } else {
             this.times = "刚刚";
           }
@@ -303,7 +303,10 @@ export default {
               message: '评论成功',
               type: 'success'
             });
-            window.location.href = "/seeNote/" + this.noteNo;
+            this.getComment(this.noteNo, 1);
+            this.open_menu = false;
+            this.replyContent = "";
+            this.comment="";
           }
         }).catch(error => {
           this.$message({

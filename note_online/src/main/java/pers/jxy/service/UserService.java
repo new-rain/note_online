@@ -142,6 +142,7 @@ public interface UserService {
     /**
      * 上传头像
      */
+    @Transactional(readOnly = false)
     String uploadHead(MultipartFile file, Integer no);
 
     /**

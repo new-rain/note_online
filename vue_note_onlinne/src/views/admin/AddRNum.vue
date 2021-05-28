@@ -64,7 +64,6 @@ export default {
       })
     },
     addRNums(num) {
-      alert(num)
       let params = new URLSearchParams();
       params.append("num", num)
       this.$axios.post("/addRNum", params).then(res => {

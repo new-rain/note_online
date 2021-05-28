@@ -3,9 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        body{
+            text-align: center;
+            background-color: rgba(32, 140, 255, 0.1);
+        }
+
+        h1{
+            margin-top: 100px;
+        }
+
+        button{
+            border: none;
+            background: none;
+            width: 150px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: #4facfe;
+            margin-top: 100px;
+        }
+    </style>
+    <script>
+        function back(){
+            window.history.go(-1);
+        }
+    </script>
 </head>
 <body>
-系统错误
-<a href="http://localhost:8080/">返回主页</a>
+<h1>系 统 异 常</h1>
+<p>系统出现异常，请返回上一页看看</p>
+<!--<a href="http://localhost:8080/"><button>返回主页</button></a>-->
+<button onclick="back()">返回上一页</button>
 </body>
 </html>
